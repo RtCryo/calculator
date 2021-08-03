@@ -1,0 +1,70 @@
+.item {
+    border: 2px solid black;
+    margin: 4px;
+    font-size: 2em;
+    padding: 0;
+    width: 68px;
+    height: 68px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+button.item{
+    color: #444;
+    cursor: pointer;
+}
+
+button.item.active, button.item:hover {
+    background-color: #ddd;
+}
+
+.calc {
+    width: 304px;
+    margin: 0 auto;
+}
+
+.containerScore {
+    display: flex;
+    flex-flow: column;
+    border: 2px solid black;
+    margin: 4px;
+}
+
+.containerBase {
+    display: flex;
+}
+
+.containerButtRaw {
+    flex-wrap: wrap;
+    display: flex;
+    width: 228px;
+}
+
+.containerButtCol {
+    display: flex;
+    flex-flow: column;
+}
+
+.doubleButtRaw {
+    width: 144px;
+}
+
+.doubleButtCol {
+    height: 144px;
+}
+
+.score {
+    width: 284px;
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    align-items: flex-end;
+    justify-content: flex-end;
+    border: 0;
+}
+
+.small {
+    height: 34px;
+    font-size: 14px;
+}
