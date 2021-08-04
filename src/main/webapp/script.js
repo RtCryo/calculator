@@ -67,9 +67,11 @@ function elementNotNumber(input) {
         return;
     }
     if(input.innerText === ",") {
+        if (firstVar !== undefined && scoreBig.innerText.indexOf(",") > 0) scoreBig.innerText = 0;
         if (scoreBig.innerText.indexOf(",") > 0) return;
         if (xDefined) elementClean();
         scoreBig.innerText += ",";
+        clearBig=false;
         return;
     }
     if (xDefined) {firstVar = scoreBig.innerText; secondVar = operation = undefined; xDefined = false;}
