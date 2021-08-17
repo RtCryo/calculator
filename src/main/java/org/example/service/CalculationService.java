@@ -1,10 +1,12 @@
-package service;
+package org.example.service;
+
+import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
 
+@Service
 public class CalculationService {
     public String calculate(String firstVar, String secondVar, String operation){
-        System.out.println(">>>> x1 = " + firstVar + " | x2 = " + secondVar + " | op = " + operation);
         DecimalFormat decimalFormat = new DecimalFormat("#.#####");
         double doubleFirstVar = Double.parseDouble(firstVar);
         double doubleSecondVar = Double.parseDouble(secondVar);
@@ -26,7 +28,6 @@ public class CalculationService {
         if(result.isEmpty()) {
             result = decimalFormat.format(tempVar);
         }
-        System.out.println(result);
         return result;
     }
 }

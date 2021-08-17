@@ -1,8 +1,8 @@
 "use strict";
 
-const input = document.querySelectorAll('button.item');
-const scoreBig = document.querySelector('.item.score.big');
-const scoreSmall = document.querySelector('.item.score.small');
+let input;
+let scoreBig;
+let scoreSmall;
 let firstVar = undefined;
 let secondVar = undefined;
 let operation = undefined;
@@ -88,9 +88,17 @@ function elementNotNumber(input) {
     operation = input.innerText;
 }
 
-for(let i=0;i<input.length;i++){
-    input[i].addEventListener('click', function(){
-        isNaN(this.innerText) ? elementNotNumber(input[i]) : elementIsNumber(input[i]);
-    });
+function elementListner() {
+    input = document.querySelectorAll('button.item');
+    scoreBig = document.querySelector('.item.score.big');
+    scoreSmall = document.querySelector('.item.score.small');
+    for(let i=0;i<input.length;i++) {
+        input[i].addEventListener('click', function () {
+            isNaN(this.innerText) ? elementNotNumber(input[i]) : elementIsNumber(input[i]);
+        });
+    }
 }
 
+$( document ).ready(function() {
+    elementListner();
+});
