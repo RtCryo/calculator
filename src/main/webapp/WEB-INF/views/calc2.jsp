@@ -1,9 +1,12 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<c:set var="cp" value="${pageContext.request.servletContext.contextPath}" scope="request" />
+
 <!DOCTYPE html>
 <html lang = "de">
 <head>
-	<link rel="stylesheet" href="../../resources/theme1/css/style2.css">
-    <script type="text/javascript" src="../../resources/theme1/js/jquery-3.6.0.min.js"></script>
-    <script src="../../resources/theme1/js/script.js"></script>
+    <link href="<c:url value="/resources/css/style2.css" />" rel="stylesheet">
+    <script src="<c:url value="/resources/js/jquery-3.6.0.min.js" />"></script>
+    <script src="<c:url value="/resources/js/script.js" />"></script>
     <title>Calc</title>
 </head>
 <body>
