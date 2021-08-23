@@ -1,8 +1,8 @@
 "use strict";
 
-const input = document.querySelectorAll('button.item');
-const scoreBig = document.querySelector('.item.score.big');
-const scoreSmall = document.querySelector('.item.score.small');
+let input;
+let scoreBig;
+let scoreSmall;
 let firstVar = undefined;
 let secondVar = undefined;
 let operation = undefined;
@@ -13,7 +13,7 @@ let xDefined = false;
 function request(firstVarReq, secondVarReq, operation, input) {
     firstVarReq = firstVarReq.replace(",",".");
     secondVarReq = secondVarReq.replace(",",".");
-    let data = {"x1":firstVarReq, "x2": secondVarReq, "op": operation};
+    let data = {"x1":firstVarReq, "x2": secondVarReq, "op": operation, "expression" : "" + firstVarReq + " " + operation + " " + secondVarReq};
     $.ajax ({
         type: "POST",
         data: data,
@@ -30,6 +30,10 @@ function request(firstVarReq, secondVarReq, operation, input) {
             }
             secondVar = secondVarReq;
             firstVar = scoreBig.innerText;
+        },
+        error: function (error) {
+            console.log(error);
+            alert('error; ' + eval(error));
         }
     });
 }
@@ -88,9 +92,17 @@ function elementNotNumber(input) {
     operation = input.innerText;
 }
 
-for(let i=0;i<input.length;i++){
-    input[i].addEventListener('click', function(){
-        isNaN(this.innerText) ? elementNotNumber(input[i]) : elementIsNumber(input[i]);
-    });
+function elementListner() {
+    input = document.querySelectorAll('button.item');
+    scoreBig = document.querySelector('.item.score.big');
+    scoreSmall = document.querySelector('.item.score.small');
+    for(let i=0;i<input.length;i++) {
+        input[i].addEventListener('click', function () {
+            isNaN(this.innerText) ? elementNotNumber(input[i]) : elementIsNumber(input[i]);
+        });
+    }
 }
 
+$( document ).ready(function() {
+    elementListner();
+});
