@@ -13,7 +13,7 @@ let xDefined = false;
 function request(firstVarReq, secondVarReq, operation, input) {
     firstVarReq = firstVarReq.replace(",",".");
     secondVarReq = secondVarReq.replace(",",".");
-    let data = {"x1":firstVarReq, "x2": secondVarReq, "op": operation};
+    let data = {"x1":firstVarReq, "x2": secondVarReq, "op": operation, "expression" : "" + firstVarReq + " " + operation + " " + secondVarReq};
     $.ajax ({
         type: "POST",
         data: data,
@@ -30,6 +30,10 @@ function request(firstVarReq, secondVarReq, operation, input) {
             }
             secondVar = secondVarReq;
             firstVar = scoreBig.innerText;
+        },
+        error: function (error) {
+            console.log(error);
+            alert('error; ' + eval(error));
         }
     });
 }

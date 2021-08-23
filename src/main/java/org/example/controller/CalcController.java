@@ -1,22 +1,27 @@
 package org.example.controller;
 
+import org.example.dao.ExpressionDAO;
+import org.example.model.Expression;
 import org.example.service.CalculationService;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class CalcController {
 
-    CalculationService calculate;
+    CalculationService calculateService;
+    ExpressionDAO expressionDAO;
 
-    public CalcController(CalculationService calculate) {
-        this.calculate = calculate;
+    public CalcController(CalculationService calculate, ExpressionDAO expressionDAO) {
+        this.calculateService = calculate;
+        this.expressionDAO = expressionDAO;
     }
 
     @GetMapping("/")
@@ -25,23 +30,32 @@ public class CalcController {
     }
 
     @GetMapping("/calc")
-    public String calcGet(){
+    public String calcGet(Model model) {
+        model.addAttribute("list", expressionDAO.getListExpressions());
         return "calc2";
     }
 
-    @PostMapping("/calc")
-    public void calcPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        processRequest(request, response);
+    @GetMapping("/expressionList")
+    public @ResponseBody ResponseEntity<List<Expression>> expressionListGet() {
+        return new ResponseEntity<>(expressionDAO.getListExpressions(), HttpStatus.OK);
     }
 
-    private void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws IOException, JSONException {
-        response.setContentType("application/json");
-        response.setCharacterEncoding("utf-8");
-        try (PrintWriter out = response.getWriter()) {
-            JSONObject jsonEnt = new JSONObject();
-            jsonEnt.put("result", calculate.calculate(request.getParameter("x1"),request.getParameter("x2"),request.getParameter("op")));
-            out.print(jsonEnt.toString());
-        }
+    @GetMapping("/expressionListId")
+    public @ResponseBody ResponseEntity<List<Expression>> expressionListGetId() {
+        return new ResponseEntity<>(expressionDAO.getListExpressions(), HttpStatus.OK);
     }
+
+    @PostMapping("/calcSave")
+    public @ResponseBody ResponseEntity<Expression> calc (Expression model) {
+        expressionDAO.putExpression(model);
+        return new ResponseEntity<>(model, HttpStatus.OK);
+    }
+
+    @PostMapping("/subtotal")
+    public @ResponseBody ResponseEntity<String> processRequest(@RequestParam("firstVar") String firstVar,
+                                                               @RequestParam("secondVar") String secondVar,
+                                                               @RequestParam("operation") String operation) {
+        return new ResponseEntity<>(calculateService.calculate(firstVar,secondVar, operation), HttpStatus.OK);
+    }
+
 }
