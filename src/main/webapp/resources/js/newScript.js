@@ -10,7 +10,6 @@ let expression = {
     result: undefined,
     expressionList: "",
     lastButton: undefined,
-    id : undefined
 };
 let listSection;
 
@@ -102,7 +101,6 @@ function requestSubTotal(input) {
                 $("#result").html(serverData);
                 if (input.innerText === "E") {
                     expression.result = serverData;
-                    expression.id++;
                     requestSave();
                 } else {
                     scoreSmall.innerText += expression.secondVar;
@@ -147,9 +145,6 @@ function requestListExpressions(){
     $.getJSON('expressionList', function(serverData){
         if (serverData.length > 0) {
             serverData.forEach((obj_item) => {liElementCreate(obj_item)});
-            expression.id = serverData[serverData.length - 1].id;
-        } else {
-            expression.id = 0;
         }
     });
 }
