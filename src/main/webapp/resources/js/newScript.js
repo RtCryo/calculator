@@ -76,6 +76,10 @@ $(function(){
                 expression.operation = this.innerText;
                 scoreSmall.innerText = expression.firstVar + this.innerText;
             } else {
+                if (expression.secondVar === "0") {
+                    alert("Division by zero");
+                    return;
+                }
                 requestSubTotal(this);
             }
         } else {
@@ -95,20 +99,16 @@ function requestSubTotal(input) {
             "operation": expression.operation},
         url: 'subtotal',
         success:function(serverData) {
-            if (serverData === "Division by zero") {
-                alert(serverData);
+            $("#result").html(serverData);
+            if (input.innerText === "E") {
+                expression.result = serverData;
+                requestSave();
             } else {
-                $("#result").html(serverData);
-                if (input.innerText === "E") {
-                    expression.result = serverData;
-                    requestSave();
-                } else {
-                    scoreSmall.innerText += expression.secondVar;
-                    scoreSmall.innerText += input.innerText;
-                    expression.operation = input.innerText;
-                    expression.isPolynom = true;
-                    expression.firstVar = scoreBig.innerText;
-                }
+                scoreSmall.innerText += expression.secondVar;
+                scoreSmall.innerText += input.innerText;
+                expression.operation = input.innerText;
+                expression.isPolynom = true;
+                expression.firstVar = scoreBig.innerText;
             }
         },
         error: function (error) {
@@ -121,7 +121,7 @@ function requestSave() {
     $.ajax ({
         type: "POST",
         data: expression,
-        url: 'calcSave',
+        url: 'expressions',
         success:function(serverData)
         {
             scoreSmall.innerText = "";
@@ -142,7 +142,7 @@ function liElementCreate(obj_item) {
 }
 
 function requestListExpressions(){
-    $.getJSON('expressionList', function(serverData){
+    $.getJSON('expressions', function(serverData){
         if (serverData.length > 0) {
             serverData.forEach((obj_item) => {liElementCreate(obj_item)});
         }

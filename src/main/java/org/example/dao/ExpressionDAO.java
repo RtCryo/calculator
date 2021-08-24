@@ -5,14 +5,16 @@ import org.springframework.stereotype.Component;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
 public class ExpressionDAO {
     private List<Expression> listExpressions;
-    private static int EXPRESSION_ID;
+    private static AtomicInteger counter;
 
     public ExpressionDAO() {
         this.listExpressions = new LinkedList<>();
+        counter = new AtomicInteger(0);
     }
 
     public List<Expression> getListExpressions() {
@@ -20,17 +22,8 @@ public class ExpressionDAO {
     }
 
     public void putExpression(Expression a) {
-        a.setId(EXPRESSION_ID++);
+        a.setId(counter.incrementAndGet());
         listExpressions.add(a);
-    }
-
-    public Expression getExpression(int id){
-        for (Expression a : listExpressions) {
-            if (a.getId() == id) {
-                return a;
-            }
-        }
-        return new Expression();
     }
 
 }

@@ -8,10 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 public class CalcController {
@@ -35,20 +32,15 @@ public class CalcController {
         return "calc2";
     }
 
-    @GetMapping("/expressionList")
-    public @ResponseBody ResponseEntity<List<Expression>> expressionListGet() {
-        return new ResponseEntity<>(expressionDAO.getListExpressions(), HttpStatus.OK);
+    @GetMapping("/expressions")
+    public @ResponseBody List<Expression> expressionListGet() {
+        return expressionDAO.getListExpressions();
     }
 
-    @GetMapping("/expressionListId")
-    public @ResponseBody ResponseEntity<List<Expression>> expressionListGetId() {
-        return new ResponseEntity<>(expressionDAO.getListExpressions(), HttpStatus.OK);
-    }
-
-    @PostMapping("/calcSave")
-    public @ResponseBody ResponseEntity<Expression> calc (Expression model) {
+    @PostMapping("/expressions")
+    public @ResponseBody Expression expressionSave(Expression model) {
         expressionDAO.putExpression(model);
-        return new ResponseEntity<>(model, HttpStatus.OK);
+        return model;
     }
 
     @PostMapping("/subtotal")
