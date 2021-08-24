@@ -9,6 +9,7 @@ import java.util.List;
 @Component
 public class ExpressionDAO {
     private List<Expression> listExpressions;
+    private static int EXPRESSION_ID;
 
     public ExpressionDAO() {
         this.listExpressions = new LinkedList<>();
@@ -19,6 +20,7 @@ public class ExpressionDAO {
     }
 
     public void putExpression(Expression a) {
+        a.setId(EXPRESSION_ID++);
         listExpressions.add(a);
     }
 
