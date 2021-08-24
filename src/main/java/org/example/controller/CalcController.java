@@ -44,10 +44,11 @@ public class CalcController {
     }
 
     @PostMapping("/subtotal")
-    public @ResponseBody ResponseEntity<String> processRequest(@RequestParam("firstVar") String firstVar,
+    public @ResponseBody String processRequest(@RequestParam("firstVar") String firstVar,
                                                                @RequestParam("secondVar") String secondVar,
                                                                @RequestParam("operation") String operation) {
-        return new ResponseEntity<>(calculateService.calculate(firstVar,secondVar, operation), HttpStatus.OK);
+        if(secondVar.equals("0")){return "error";}
+        return calculateService.calculate(firstVar,secondVar, operation);
     }
 
 }

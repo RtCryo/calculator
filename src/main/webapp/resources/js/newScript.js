@@ -10,6 +10,7 @@ let expression = {
     result: undefined,
     expressionList: "",
     lastButton: undefined,
+    error: false,
 };
 let listSection;
 
@@ -21,6 +22,7 @@ $(function(){
             expression.expressionList = scoreSmall.innerText + scoreBig.innerText;
         }
         requestSubTotal(this);
+        if(!expression.error) return;
         if(expression.lastButton !== "enter") expression.secondVar = scoreBig.innerText;
         expression.lastButton = "enter";
     });
@@ -37,6 +39,7 @@ $(function(){
         scoreSmall.innerText = "";
         scoreBig.innerText = "0";
         expression.lastButton = "cancel";
+        expression.error = false;
     });
 });
 
@@ -76,10 +79,6 @@ $(function(){
                 expression.operation = this.innerText;
                 scoreSmall.innerText = expression.firstVar + this.innerText;
             } else {
-                if (expression.secondVar === "0") {
-                    alert("Division by zero");
-                    return;
-                }
                 requestSubTotal(this);
             }
         } else {
@@ -91,7 +90,7 @@ $(function(){
 });
 
 function requestSubTotal(input) {
-    if(expression.lastButton !== "enter") expression.secondVar = scoreBig.innerText;
+    if (expression.lastButton !== "enter") expression.secondVar = scoreBig.innerText;
     $.ajax ({
         type: "POST",
         data: {"firstVar":expression.firstVar.replace(",","."),
@@ -99,6 +98,11 @@ function requestSubTotal(input) {
             "operation": expression.operation},
         url: 'subtotal',
         success:function(serverData) {
+            if (serverData === "error") {
+                alert("Division by zero");
+                expression.error = true;
+                return;
+            }
             $("#result").html(serverData);
             if (input.innerText === "E") {
                 expression.result = serverData;
