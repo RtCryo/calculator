@@ -33,22 +33,21 @@ public class CalcController {
     }
 
     @GetMapping("/expressions")
-    public @ResponseBody List<Expression> expressionListGet() {
-        return expressionDAO.getListExpressions();
+    public @ResponseBody ResponseEntity<List<Expression>> expressionListGet() {
+        return new ResponseEntity<>(expressionDAO.getListExpressions(), HttpStatus.OK);
     }
 
     @PostMapping("/expressions")
-    public @ResponseBody Expression expressionSave(Expression model) {
+    public @ResponseBody ResponseEntity<Expression> expressionSave(Expression model) {
         expressionDAO.putExpression(model);
-        return model;
+        return new ResponseEntity<>(model,HttpStatus.OK);
     }
 
     @PostMapping("/subtotal")
-    public @ResponseBody String processRequest(@RequestParam("firstVar") String firstVar,
+    public @ResponseBody ResponseEntity<String> processRequest(@RequestParam("firstVar") String firstVar,
                                                                @RequestParam("secondVar") String secondVar,
                                                                @RequestParam("operation") String operation) {
-        if(secondVar.equals("0")){return "error";}
-        return calculateService.calculate(firstVar,secondVar, operation);
+        return new ResponseEntity<>(calculateService.calculate(firstVar,secondVar, operation), HttpStatus.OK);
     }
 
 }
