@@ -5,6 +5,11 @@ public class Expression {
     private String expressionList;
     private String result;
 
+    public Expression(String expressionList, String result) {
+        this.expressionList = expressionList;
+        this.result = result;
+    }
+
     public int getId() {
         return id;
     }

@@ -22,9 +22,15 @@ $(function(){
             expression.expressionList = scoreSmall.innerText + scoreBig.innerText;
         }
         requestSubTotal(this);
-        if(!expression.error) return;
+
+        /// HUITA
+        if(expression.error) {
+            expression.error = false;
+            return;
+        }
         if(expression.lastButton !== "enter") expression.secondVar = scoreBig.innerText;
         expression.lastButton = "enter";
+        /// HUITA
     });
 });
 
@@ -45,7 +51,9 @@ $(function(){
 
 $(function(){
     $(".comma").click(function() {
-        if (expression.lastButton === "enter") expression.operation = undefined;
+        if (expression.lastButton === "enter") {
+            expression.operation = undefined;
+        }
         if (expression.lastButton === "operation" || expression.lastButton === "enter") scoreBig.innerText = 0;
         if (scoreBig.innerText.indexOf(",") > 0) return;
         scoreBig.innerText += ",";
@@ -55,7 +63,10 @@ $(function(){
 
 $(function(){
     $(".num").click(function() {
-        if (expression.lastButton === "enter") expression.operation = undefined;
+        if (expression.lastButton === "enter") {
+            expression.operation = undefined;
+            scoreBig.innerText = 0;
+        }
         if(expression.lastButton === "operation" || expression.lastButton === "enter") scoreBig.innerText = 0;
         scoreBig.innerText === "0" ? scoreBig.innerText = this.innerText : scoreBig.innerText += this.innerText;
         expression.lastButton = "num";
@@ -98,11 +109,6 @@ function requestSubTotal(input) {
             "operation": expression.operation},
         url: 'subtotal',
         success:function(serverData) {
-            if (serverData === "error") {
-                alert("Division by zero");
-                expression.error = true;
-                return;
-            }
             $("#result").html(serverData);
             if (input.innerText === "E") {
                 expression.result = serverData;
@@ -116,7 +122,7 @@ function requestSubTotal(input) {
             }
         },
         error: function (error) {
-            alert('error; ' + eval(error));
+            alert('error; ' + error.responseText);
         }
     });
 }
@@ -133,7 +139,7 @@ function requestSave() {
             liElementCreate(serverData);
         },
         error: function (error) {
-            alert('error; ' + eval(error));
+            alert('error; ' + error.responseText);
         }
     });
 }
