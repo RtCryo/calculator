@@ -10,7 +10,6 @@ public class DefaultAdvice {
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> handleException(IllegalArgumentException e) {
         String response = e.getMessage();
-        System.out.println(e.getMessage());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 }
