@@ -4,9 +4,9 @@
 <!DOCTYPE html>
 <html lang = "de">
 <head>
-    <link href="<c:url value="/resources/css/style2.css" />" rel="stylesheet">
+    <link href="<c:url value="/resources/css/styleCalc.css" />" rel="stylesheet">
     <script src="<c:url value="/resources/js/jquery-3.6.0.min.js" />"></script>
-    <script src="<c:url value="/resources/js/newScript.js" />"></script>
+    <script src="<c:url value="/resources/js/calcScript.js" />"></script>
     <title>Calc</title>
 </head>
 <body>

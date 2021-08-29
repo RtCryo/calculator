@@ -6,11 +6,11 @@ import org.example.service.CalculationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
+@RequestMapping("/calc")
 public class CalcController {
 
     CalculationService calculateService;
@@ -21,15 +21,9 @@ public class CalcController {
         this.expressionDAO = expressionDAO;
     }
 
-    @GetMapping("/")
-    public String indexGet(){
-        return "index";
-    }
-
-    @GetMapping("/calc")
-    public String calcGet(Model model) {
-        model.addAttribute("list", expressionDAO.getListExpressions());
-        return "calc2";
+    @GetMapping()
+    public String calcGet() {
+        return "calc";
     }
 
     @GetMapping("/expressions")
