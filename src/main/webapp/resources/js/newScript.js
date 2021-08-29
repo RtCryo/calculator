@@ -10,7 +10,6 @@ let expression = {
     result: undefined,
     expressionList: "",
     lastButton: undefined,
-    error: false,
 };
 let listSection;
 
@@ -22,15 +21,6 @@ $(function(){
             expression.expressionList = scoreSmall.innerText + scoreBig.innerText;
         }
         requestSubTotal(this);
-
-        /// HUITA
-        if(expression.error) {
-            expression.error = false;
-            return;
-        }
-        if(expression.lastButton !== "enter") expression.secondVar = scoreBig.innerText;
-        expression.lastButton = "enter";
-        /// HUITA
     });
 });
 
@@ -45,7 +35,6 @@ $(function(){
         scoreSmall.innerText = "";
         scoreBig.innerText = "0";
         expression.lastButton = "cancel";
-        expression.error = false;
     });
 });
 
@@ -76,27 +65,28 @@ $(function(){
 $(function(){
     $(".op").click(function() {
         if(expression.lastButton === "comma") return;
-        if(expression.lastButton === undefined ||expression.lastButton === "cancel") {
+        if(expression.lastButton === undefined || expression.lastButton === "cancel") {
             expression.firstVar = scoreBig.innerText;
-            expression.lastButton = "num";
+            expression.lastButton = "operation";
         }
         if(expression.lastButton === "enter") {
-            expression.lastButton = "num";
             expression.operation = undefined;
+            expression.lastButton = "num";
         }
         if(expression.lastButton === "num") {
             if (expression.operation === undefined) {
                 expression.firstVar = scoreBig.innerText;
                 expression.operation = this.innerText;
                 scoreSmall.innerText = expression.firstVar + this.innerText;
+                expression.lastButton = "operation";
             } else {
                 requestSubTotal(this);
             }
         } else {
             scoreSmall.innerText = scoreSmall.innerText.substr(0, scoreSmall.innerText.length - 1) + this.innerText;
             expression.operation = this.innerText;
+            expression.lastButton = "num";
         }
-        expression.lastButton = "operation"
     });
 });
 
@@ -107,7 +97,7 @@ function requestSubTotal(input) {
         data: {"firstVar":expression.firstVar.replace(",","."),
             "secondVar": expression.secondVar.replace(",","."),
             "operation": expression.operation},
-        url: 'subtotal',
+        url: 'calc/subtotal',
         success:function(serverData) {
             $("#result").html(serverData);
             if (input.innerText === "E") {
@@ -119,10 +109,11 @@ function requestSubTotal(input) {
                 expression.operation = input.innerText;
                 expression.isPolynom = true;
                 expression.firstVar = scoreBig.innerText;
+                expression.lastButton = "operation"
             }
         },
         error: function (error) {
-            alert('error; ' + error.responseText);
+            alert('error: ' + error.responseText);
         }
     });
 }
@@ -131,15 +122,16 @@ function requestSave() {
     $.ajax ({
         type: "POST",
         data: expression,
-        url: 'expressions',
+        url: 'calc/expressions',
         success:function(serverData)
         {
             scoreSmall.innerText = "";
             expression.firstVar = scoreBig.innerText;
+            expression.lastButton = "enter";
             liElementCreate(serverData);
         },
         error: function (error) {
-            alert('error; ' + error.responseText);
+            alert('error: ' + error.responseText);
         }
     });
 }
@@ -152,7 +144,7 @@ function liElementCreate(obj_item) {
 }
 
 function requestListExpressions(){
-    $.getJSON('expressions', function(serverData){
+    $.getJSON('calc/expressions', function(serverData){
         if (serverData.length > 0) {
             serverData.forEach((obj_item) => {liElementCreate(obj_item)});
         }

@@ -19,6 +19,7 @@ public class ExpressionDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 listResult.add(new Expression(
+                                resultSet.getInt("id"),
                                 resultSet.getString("expressionlist"),
                                 resultSet.getString("result")));
             }
@@ -33,6 +34,17 @@ public class ExpressionDAO {
     public void putExpression(Expression a) {
         try (PreparedStatement preparedStatement = SqlService.getConnection().prepareStatement(
                 "insert into expressionstable (expressionlist, result) values ('" + a.getExpressionList() + "','" + a.getResult() + "')")){
+            preparedStatement.executeQuery();
+        } catch (SQLException e) {
+            System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteExpression(Expression a) {
+        try (PreparedStatement preparedStatement = SqlService.getConnection().prepareStatement(
+                "delete from expressionstable where id = '" + a.getId() + "'")){
             preparedStatement.executeQuery();
         } catch (SQLException e) {
             System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
