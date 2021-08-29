@@ -10,7 +10,6 @@ let expression = {
     result: undefined,
     expressionList: "",
     lastButton: undefined,
-    error: false,
 };
 let listSection;
 
@@ -36,7 +35,6 @@ $(function(){
         scoreSmall.innerText = "";
         scoreBig.innerText = "0";
         expression.lastButton = "cancel";
-        expression.error = false;
     });
 });
 
