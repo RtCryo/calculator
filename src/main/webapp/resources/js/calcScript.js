@@ -43,7 +43,7 @@ $(function(){
         if (expression.lastButton === "enter") {
             expression.operation = undefined;
         }
-        if (expression.lastButton === "operation" || expression.lastButton === "enter") scoreBig.innerText = 0;
+        if (expression.lastButton === "operation" || expression.lastButton === "enter" || expression.lastButton === "error") scoreBig.innerText = 0;
         if (scoreBig.innerText.indexOf(",") > 0) return;
         scoreBig.innerText += ",";
         expression.lastButton = "comma";
@@ -56,7 +56,7 @@ $(function(){
             expression.operation = undefined;
             scoreBig.innerText = 0;
         }
-        if(expression.lastButton === "operation" || expression.lastButton === "enter") scoreBig.innerText = 0;
+        if(expression.lastButton === "operation" || expression.lastButton === "enter" || expression.lastButton === "error") scoreBig.innerText = 0;
         scoreBig.innerText === "0" ? scoreBig.innerText = this.innerText : scoreBig.innerText += this.innerText;
         expression.lastButton = "num";
     });
@@ -113,6 +113,7 @@ function requestSubTotal(input) {
             }
         },
         error: function (error) {
+            expression.lastButton = "error";
             alert('error: ' + error.responseText);
         }
     });
@@ -131,6 +132,7 @@ function requestSave() {
             liElementCreate(serverData);
         },
         error: function (error) {
+            expression.lastButton = "error";
             alert('error: ' + error.responseText);
         }
     });

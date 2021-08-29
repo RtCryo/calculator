@@ -23,7 +23,7 @@ public class CalcController {
 
     @GetMapping()
     public String calcGet() {
-        return "calc2";
+        return "calc";
     }
 
     @GetMapping("/expressions")
