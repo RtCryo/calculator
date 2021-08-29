@@ -21,6 +21,15 @@ $(function(){
             expression.expressionList = scoreSmall.innerText + scoreBig.innerText;
         }
         requestSubTotal(this);
+
+        /// HUITA
+        if(expression.error) {
+            expression.error = false;
+            return;
+        }
+        if(expression.lastButton !== "enter") expression.secondVar = scoreBig.innerText;
+        expression.lastButton = "enter";
+        /// HUITA
     });
 });
 
@@ -65,28 +74,27 @@ $(function(){
 $(function(){
     $(".op").click(function() {
         if(expression.lastButton === "comma") return;
-        if(expression.lastButton === undefined || expression.lastButton === "cancel") {
+        if(expression.lastButton === undefined ||expression.lastButton === "cancel") {
             expression.firstVar = scoreBig.innerText;
-            expression.lastButton = "operation";
+            expression.lastButton = "num";
         }
         if(expression.lastButton === "enter") {
-            expression.operation = undefined;
             expression.lastButton = "num";
+            expression.operation = undefined;
         }
         if(expression.lastButton === "num") {
             if (expression.operation === undefined) {
                 expression.firstVar = scoreBig.innerText;
                 expression.operation = this.innerText;
                 scoreSmall.innerText = expression.firstVar + this.innerText;
-                expression.lastButton = "operation";
             } else {
                 requestSubTotal(this);
             }
         } else {
             scoreSmall.innerText = scoreSmall.innerText.substr(0, scoreSmall.innerText.length - 1) + this.innerText;
             expression.operation = this.innerText;
-            expression.lastButton = "num";
         }
+        expression.lastButton = "operation"
     });
 });
 
@@ -109,11 +117,10 @@ function requestSubTotal(input) {
                 expression.operation = input.innerText;
                 expression.isPolynom = true;
                 expression.firstVar = scoreBig.innerText;
-                expression.lastButton = "operation"
             }
         },
         error: function (error) {
-            alert('error: ' + error.responseText);
+            alert('error; ' + error.responseText);
         }
     });
 }
@@ -127,11 +134,10 @@ function requestSave() {
         {
             scoreSmall.innerText = "";
             expression.firstVar = scoreBig.innerText;
-            expression.lastButton = "enter";
             liElementCreate(serverData);
         },
         error: function (error) {
-            alert('error: ' + error.responseText);
+            alert('error; ' + error.responseText);
         }
     });
 }
