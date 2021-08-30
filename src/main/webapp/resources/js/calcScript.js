@@ -126,10 +126,11 @@ function requestSave() {
         url: 'calc/expressions',
         success:function(serverData)
         {
-            scoreSmall.innerText = "";
             expression.firstVar = scoreBig.innerText;
+            scoreSmall.innerText = "";
             expression.lastButton = "enter";
             liElementCreate(serverData);
+            listSection.lastElementChild.remove();
         },
         error: function (error) {
             expression.lastButton = "error";
@@ -142,13 +143,15 @@ function liElementCreate(obj_item) {
     const liElement = document.createElement("li");
     liElement.innerText = obj_item.expressionList + " = " + obj_item.result;
     liElement.setAttribute("data-id", obj_item.id);
-    listSection.appendChild(liElement);
+    listSection.insertBefore(liElement,listSection.firstElementChild);
 }
 
 function requestListExpressions(){
     $.getJSON('calc/expressions', function(serverData){
         if (serverData.length > 0) {
-            serverData.forEach((obj_item) => {liElementCreate(obj_item)});
+            for (let i = serverData.length - 1, l = 0; i >= 0, l < 10; i--, l++) {
+                liElementCreate(serverData[i]);
+            }
         }
     });
 }
