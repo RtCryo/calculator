@@ -7,7 +7,7 @@ import java.text.DecimalFormat;
 @Service
 public class CalculationService {
     public String calculate(String firstVar, String secondVar, String operation){
-        if (Integer.parseInt(secondVar) == 0 ){
+        if (Integer.parseInt(secondVar) == 0 && operation.equals("/")){
             throw new IllegalArgumentException("Division by zero");
         }
         DecimalFormat decimalFormat = new DecimalFormat("#.#####");

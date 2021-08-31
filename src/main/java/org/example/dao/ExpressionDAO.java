@@ -11,17 +11,39 @@ import java.util.List;
 
 @Component
 public class ExpressionDAO {
-    public ExpressionDAO() { }
+    private List<Expression> listResult;
+
+    public ExpressionDAO() {}
 
     public List<Expression> getListExpressions() {
-        List<Expression> listResult = new LinkedList<>();
+        listResult = new LinkedList<>();
         try (PreparedStatement preparedStatement = SqlService.getConnection().prepareStatement("SELECT * FROM expressionstable")){
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 listResult.add(new Expression(
                                 resultSet.getInt("id"),
                                 resultSet.getString("expressionlist"),
-                                resultSet.getString("result")));
+                                resultSet.getString("result"),
+                                resultSet.getTimestamp("date")));
+            }
+        } catch (SQLException e) {
+            System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listResult;
+    }
+
+    public List<Expression> getListExpressions (int num) {
+        listResult = new LinkedList<>();
+        try (PreparedStatement preparedStatement = SqlService.getConnection().prepareStatement("SELECT * FROM expressionstable ORDER BY date DESC LIMIT " + num)){
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                listResult.add(new Expression(
+                        resultSet.getInt("id"),
+                        resultSet.getString("expressionlist"),
+                        resultSet.getString("result"),
+                        resultSet.getDate("date")));
             }
         } catch (SQLException e) {
             System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
@@ -33,7 +55,7 @@ public class ExpressionDAO {
 
     public void putExpression(Expression a) {
         try (PreparedStatement preparedStatement = SqlService.getConnection().prepareStatement(
-                "insert into expressionstable (expressionlist, result) values ('" + a.getExpressionList() + "','" + a.getResult() + "')")){
+                "insert into expressionstable (expressionlist, result, date) values ('" + a.getExpressionList() + "','" + a.getResult() + "', NOW())")){
             preparedStatement.executeQuery();
         } catch (SQLException e) {
             System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());

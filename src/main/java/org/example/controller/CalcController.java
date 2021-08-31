@@ -28,7 +28,7 @@ public class CalcController {
 
     @GetMapping("/expressions")
     public @ResponseBody ResponseEntity<List<Expression>> expressionListGet() {
-        return new ResponseEntity<>(expressionDAO.getListExpressions(), HttpStatus.OK);
+        return new ResponseEntity<>(expressionDAO.getListExpressions(10), HttpStatus.OK);
     }
 
     @PostMapping("/expressions")

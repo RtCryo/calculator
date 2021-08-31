@@ -15,12 +15,18 @@ let listSection;
 
 $(function(){
     $(".enter").click(function() {
+        if (expression.lastButton === "comma") {
+            scoreBig.innerText = scoreBig.innerText.substr(0,scoreBig.innerText.length - 1);
+            expression.lastButton = "cancel";
+            return;
+        }
+        if (expression.lastButton === "cancel") return;
         if (expression.lastButton === "enter") {
             expression.expressionList = expression.firstVar + expression.operation + expression.secondVar;
-        } else {
+        } else if (expression.operation !== undefined){
             expression.expressionList = scoreSmall.innerText + scoreBig.innerText;
+            requestSubTotal(this);
         }
-        requestSubTotal(this);
     });
 });
 
@@ -67,7 +73,10 @@ $(function(){
         if(expression.lastButton === "comma") return;
         if(expression.lastButton === undefined || expression.lastButton === "cancel") {
             expression.firstVar = scoreBig.innerText;
+            scoreSmall.innerText = scoreBig.innerText + this.innerText;
+            expression.operation = this.innerText;
             expression.lastButton = "operation";
+            return;
         }
         if(expression.lastButton === "enter") {
             expression.operation = undefined;
@@ -124,13 +133,13 @@ function requestSave() {
         type: "POST",
         data: expression,
         url: 'calc/expressions',
-        success:function(serverData)
+        success:function()
         {
             expression.firstVar = scoreBig.innerText;
             scoreSmall.innerText = "";
             expression.lastButton = "enter";
-            liElementCreate(serverData);
-            listSection.lastElementChild.remove();
+            $("ul li").remove();
+            requestListExpressions();
         },
         error: function (error) {
             expression.lastButton = "error";
@@ -143,15 +152,14 @@ function liElementCreate(obj_item) {
     const liElement = document.createElement("li");
     liElement.innerText = obj_item.expressionList + " = " + obj_item.result;
     liElement.setAttribute("data-id", obj_item.id);
-    listSection.insertBefore(liElement,listSection.firstElementChild);
+    listSection.appendChild(liElement);
+    //listSection.insertBefore(liElement,listSection.firstElementChild);
 }
 
 function requestListExpressions(){
     $.getJSON('calc/expressions', function(serverData){
         if (serverData.length > 0) {
-            for (let i = serverData.length - 1, l = 0; i >= 0, l < 10; i--, l++) {
-                liElementCreate(serverData[i]);
-            }
+            serverData.forEach((obj_item) => liElementCreate(obj_item));
         }
     });
 }
