@@ -37,7 +37,8 @@ function sendListToDelete(list) {
         url: 'admin/expressionsToDelete',
         contentType:"application/json",
         success:function() {
-            location.reload();
+            $(".expressionItem").remove();
+            requestListExpressions();
         },
         error: function (error) {
             alert('error: ' + error.responseText);
@@ -55,8 +56,9 @@ function requestListExpressions(){
 }
 
 function liElementCreate(obj_item) {
-    const liElement = document.createElement("div");
-    const chkBtn = document.createElement("input");
+    let liElement = document.createElement("div");
+    liElement.setAttribute("class", "expressionItem")
+    let chkBtn = document.createElement("input");
 
     chkBtn.setAttribute("class", "chkBox");
     chkBtn.setAttribute("type", "checkbox");
@@ -65,7 +67,7 @@ function liElementCreate(obj_item) {
     chkBtn.setAttribute("result", obj_item.result);
 
     liElement.appendChild(chkBtn);
-    liElement.innerHTML += obj_item.expressionList + " = " + obj_item.result;
+    liElement.innerHTML += obj_item.date + ": " + obj_item.expressionList + " = " + obj_item.result;
 
     listSection.appendChild(liElement);
 }
