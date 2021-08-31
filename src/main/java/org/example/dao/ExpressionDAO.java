@@ -43,7 +43,7 @@ public class ExpressionDAO {
                         resultSet.getInt("id"),
                         resultSet.getString("expressionlist"),
                         resultSet.getString("result"),
-                        resultSet.getDate("date")));
+                        resultSet.getTimestamp("date")));
             }
         } catch (SQLException e) {
             System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
