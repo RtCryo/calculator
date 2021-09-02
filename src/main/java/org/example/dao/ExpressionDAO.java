@@ -1,78 +1,32 @@
 package org.example.dao;
 
 import org.example.model.Expression;
-import org.example.service.SqlService;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.LinkedList;
 import java.util.List;
 
 @Component
 public class ExpressionDAO {
-    private List<Expression> listResult;
+    private final JdbcTemplate jdbcTemplate;
 
-    public ExpressionDAO() {}
+    public ExpressionDAO(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     public List<Expression> getListExpressions() {
-        listResult = new LinkedList<>();
-        try (PreparedStatement preparedStatement = SqlService.getConnection().prepareStatement("SELECT * FROM expressionstable")){
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                listResult.add(new Expression(
-                                resultSet.getInt("id"),
-                                resultSet.getString("expressionlist"),
-                                resultSet.getString("result"),
-                                resultSet.getTimestamp("date")));
-            }
-        } catch (SQLException e) {
-            System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return listResult;
+        return jdbcTemplate.query("SELECT * FROM expressionstable", new ExpressionMapper());    //new BeanPropertyRowMapper<>()
     }
 
     public List<Expression> getListExpressions (int num) {
-        listResult = new LinkedList<>();
-        try (PreparedStatement preparedStatement = SqlService.getConnection().prepareStatement("SELECT * FROM expressionstable ORDER BY date DESC LIMIT " + num)){
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                listResult.add(new Expression(
-                        resultSet.getInt("id"),
-                        resultSet.getString("expressionlist"),
-                        resultSet.getString("result"),
-                        resultSet.getTimestamp("date")));
-            }
-        } catch (SQLException e) {
-            System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return listResult;
+        return jdbcTemplate.query("SELECT * FROM expressionstable ORDER BY date DESC LIMIT ?", new Object[]{num}, new ExpressionMapper());
     }
 
     public void putExpression(Expression a) {
-        try (PreparedStatement preparedStatement = SqlService.getConnection().prepareStatement(
-                "insert into expressionstable (expressionlist, result, date) values ('" + a.getExpressionList() + "','" + a.getResult() + "', NOW())")){
-            preparedStatement.executeQuery();
-        } catch (SQLException e) {
-            System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        jdbcTemplate.update("insert into expressionstable (expressionlist, result, date) values (?,?, NOW())", a.getExpressionList(), a.getResult());
     }
 
     public void deleteExpression(Expression a) {
-        try (PreparedStatement preparedStatement = SqlService.getConnection().prepareStatement(
-                "delete from expressionstable where id = '" + a.getId() + "'")){
-            preparedStatement.executeQuery();
-        } catch (SQLException e) {
-            System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        jdbcTemplate.update("delete from expressionstable where id = ?", a.getId());
     }
 
 }
