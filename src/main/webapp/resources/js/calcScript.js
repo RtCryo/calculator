@@ -23,6 +23,7 @@ $(function(){
         if (expression.lastButton === "cancel") return;
         if (expression.lastButton === "enter") {
             expression.expressionList = expression.firstVar + expression.operation + expression.secondVar;
+            requestSubTotal(this);
         } else if (expression.operation !== undefined){
             expression.expressionList = scoreSmall.innerText + scoreBig.innerText;
             requestSubTotal(this);
@@ -153,7 +154,6 @@ function liElementCreate(obj_item) {
     liElement.innerText = obj_item.expressionList + " = " + obj_item.result;
     liElement.setAttribute("data-id", obj_item.id);
     listSection.appendChild(liElement);
-    //listSection.insertBefore(liElement,listSection.firstElementChild);
 }
 
 function requestListExpressions(){

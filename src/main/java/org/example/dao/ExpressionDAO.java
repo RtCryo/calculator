@@ -14,7 +14,7 @@ public class ExpressionDAO {
     }
 
     public List<Expression> getListExpressions() {
-        return jdbcTemplate.query("SELECT * FROM expressionstable", new ExpressionMapper());    //new BeanPropertyRowMapper<>()
+        return jdbcTemplate.query("SELECT * FROM expressionstable", new ExpressionMapper());    //todo new BeanPropertyRowMapper<>()
     }
 
     public List<Expression> getListExpressions (int num) {

@@ -1,22 +1,17 @@
 package org.example.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class Expression {
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
-    private Date date;
-
     private int id;
     private String expressionList;
     private String result;
-
+    private LocalDateTime date;
 
     public Expression() {
     }
 
-    public Expression(int id, String expressionList, String result, Date date) {
+    public Expression(int id, String expressionList, String result, LocalDateTime date) {
         this.id = id;
         this.expressionList = expressionList;
         this.result = result;
@@ -47,11 +42,11 @@ public class Expression {
         this.result = result;
     }
 
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
