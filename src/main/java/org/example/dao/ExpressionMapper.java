@@ -15,8 +15,7 @@ public class ExpressionMapper implements RowMapper<Expression> {
         expression.setId(resultSet.getInt("id"));
         expression.setExpressionList(resultSet.getString("expressionlist"));
         expression.setResult(resultSet.getString("result"));
-        expression.setDate(resultSet.getTimestamp("date"));
-
+        expression.setDate(resultSet.getTimestamp("date").toLocalDateTime());
 
         return expression;
     }
