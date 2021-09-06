@@ -1,6 +1,7 @@
 package org.example.dao;
 
 import org.example.model.Expression;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import java.util.List;
@@ -14,11 +15,11 @@ public class ExpressionDAO {
     }
 
     public List<Expression> getListExpressions() {
-        return jdbcTemplate.query("SELECT * FROM expressionstable", new ExpressionMapper());    //todo new BeanPropertyRowMapper<>()
+        return jdbcTemplate.query("SELECT * FROM expressionstable", new BeanPropertyRowMapper<>(Expression.class));
     }
 
     public List<Expression> getListExpressions (int num) {
-        return jdbcTemplate.query("SELECT * FROM expressionstable ORDER BY date DESC LIMIT ?", new Object[]{num}, new ExpressionMapper());
+        return jdbcTemplate.query("SELECT * FROM expressionstable ORDER BY date DESC LIMIT ?", new Object[]{num}, new BeanPropertyRowMapper<>(Expression.class));
     }
 
     public void putExpression(Expression a) {
