@@ -2,9 +2,11 @@ package org.example.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -18,8 +20,21 @@ import java.util.List;
 
 @Configuration
 @ComponentScan(basePackages = { "org.example" })
+@PropertySource("classpath:application.properties")
 @EnableWebMvc
 public class SpringConfig implements WebMvcConfigurer {
+
+    @Value("${jdbc.dataSourceClassName}")
+    private String dataSourceClassName;
+
+    @Value("${jdbc.url}")
+    private String url;
+
+    @Value("${jdbc.username}")
+    private String username;
+
+    @Value("${jdbc.password}")
+    private String password;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -44,17 +59,17 @@ public class SpringConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(final ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+        registry.addResourceHandler("/src/main/resources/**").addResourceLocations("/src/main/resources/");
+        registry.addResourceHandler("/src/main/webapp/resources/**").addResourceLocations("/src/main/webapp/resources/");
     }
 
     @Bean
     public DataSource dataSource (){
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl("jdbc:postgresql://127.0.0.1:5432/calculator3");
-        dataSource.setUsername("calculator");
-        dataSource.setPassword("root");
-
+        dataSource.setDriverClassName(dataSourceClassName);
+        dataSource.setUrl(url);
+        dataSource.setUsername(username);
+        dataSource.setPassword(password);
         return dataSource;
     }
 
