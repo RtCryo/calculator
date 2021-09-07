@@ -13,8 +13,8 @@ import java.util.List;
 @RequestMapping("/calc")
 public class CalcController {
 
-    CalculationService calculateService;
-    ExpressionDAO expressionDAO;
+    private CalculationService calculateService;
+    private ExpressionDAO expressionDAO;
 
     public CalcController(CalculationService calculate, ExpressionDAO expressionDAO) {
         this.calculateService = calculate;
