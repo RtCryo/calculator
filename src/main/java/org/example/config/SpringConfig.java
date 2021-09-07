@@ -20,21 +20,8 @@ import java.util.List;
 
 @Configuration
 @ComponentScan(basePackages = { "org.example" })
-@PropertySource("classpath:application.properties")
 @EnableWebMvc
 public class SpringConfig implements WebMvcConfigurer {
-
-    @Value("${jdbc.dataSourceClassName}")
-    private String dataSourceClassName;
-
-    @Value("${jdbc.url}")
-    private String url;
-
-    @Value("${jdbc.username}")
-    private String username;
-
-    @Value("${jdbc.password}")
-    private String password;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -60,21 +47,6 @@ public class SpringConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(final ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
-    }
-
-    @Bean
-    public DataSource dataSource (){
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(dataSourceClassName);
-        dataSource.setUrl(url);
-        dataSource.setUsername(username);
-        dataSource.setPassword(password);
-        return dataSource;
-    }
-
-    @Bean
-    public JdbcTemplate jdbcTemplate(){
-        return new JdbcTemplate(dataSource());
     }
 
 }
