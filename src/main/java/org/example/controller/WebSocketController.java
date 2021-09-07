@@ -4,26 +4,23 @@ import org.springframework.stereotype.Controller;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 @ServerEndpoint("/calc/message")
 public class WebSocketController {
 
-    private static final List<Session> webSockets = new ArrayList<>();
-
     @OnOpen
     public void onOpen(Session session) {
-        webSockets.add(session);
         System.out.printf("Session opened, id: %s%n", session.getId());
     }
 
     @OnMessage
-    public void onMessage(String message) {
+    public void onMessage(String message, Session session) {
         try {
-            for(Session s : webSockets) {
-                s.getBasicRemote().sendText("message");
+            for(Session s: session.getOpenSessions()) {
+                if (s.isOpen()) {
+                    s.getBasicRemote().sendText("message");
+                }
             }
         } catch (IOException ex) {
             ex.printStackTrace();
