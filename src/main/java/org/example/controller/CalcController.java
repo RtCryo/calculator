@@ -3,6 +3,7 @@ package org.example.controller;
 import org.example.dao.ExpressionDAO;
 import org.example.model.Expression;
 import org.example.service.CalculationService;
+import org.example.service.DaoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -13,12 +14,12 @@ import java.util.List;
 @RequestMapping("/calc")
 public class CalcController {
 
-    private CalculationService calculateService;
-    private ExpressionDAO expressionDAO;
+    private final CalculationService calculateService;
+    private final DaoService daoService;
 
-    public CalcController(CalculationService calculate, ExpressionDAO expressionDAO) {
-        this.calculateService = calculate;
-        this.expressionDAO = expressionDAO;
+    public CalcController(CalculationService calculateService, DaoService daoService) {
+        this.calculateService = calculateService;
+        this.daoService = daoService;
     }
 
     @GetMapping()
@@ -28,13 +29,13 @@ public class CalcController {
 
     @GetMapping("/expressions")
     public @ResponseBody ResponseEntity<List<Expression>> expressionListGet() {
-        return new ResponseEntity<>(expressionDAO.getListExpressions(10), HttpStatus.OK);
+        return new ResponseEntity<>(daoService.listToView(10), HttpStatus.OK);
     }
 
     @PostMapping("/expressions")
-    public @ResponseBody ResponseEntity<Expression> expressionSave(Expression model) {
-        expressionDAO.putExpression(model);
-        return new ResponseEntity<>(model,HttpStatus.OK);
+    public @ResponseBody ResponseEntity<Expression> expressionSave(Expression expression) {
+        daoService.expressionToSave(expression);
+        return new ResponseEntity<>(expression,HttpStatus.OK);
     }
 
     @PostMapping("/subtotal")
