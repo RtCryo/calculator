@@ -29,7 +29,7 @@ public class AdminController {
     }
 
     @PostMapping("/expressionsToDelete")
-    public @ResponseBody ResponseEntity<List<Expression>> expressionsToDelete(@RequestBody List<Expression> list) {
+    public @ResponseBody ResponseEntity<List<Expression>> expressionsToDelete(@RequestBody List<Expression> list) { //todo DOA -> service
         for (Expression ex : list) {
             expressionDAO.deleteExpression(ex);
         }
