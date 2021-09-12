@@ -12,7 +12,6 @@ let expression = {
     lastButton: undefined,
 };
 let listSection;
-let webSocket = new WebSocket("ws://localhost:8080/calc/message");
 
 $(function(){
     $(".enter").click(function() {
@@ -140,9 +139,8 @@ function requestSave() {
             expression.firstVar = scoreBig.innerText;
             scoreSmall.innerText = "";
             expression.lastButton = "enter";
-            //$("ul li").remove();
-            //requestListExpressions();
-            webSocket.send("-->listUpdate");
+            $("ul li").remove();
+            requestListExpressions();
         },
         error: function (error) {
             expression.lastButton = "error";
@@ -164,11 +162,6 @@ function requestListExpressions(){
             serverData.forEach((obj_item) => liElementCreate(obj_item));
         }
     });
-}
-
-webSocket.onmessage = function() {
-    $("ul li").remove();
-    requestListExpressions();
 }
 
 $( document ).ready(function() {
