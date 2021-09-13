@@ -7,6 +7,8 @@
     <link href="<c:url value="/resources/css/styleCalc.css" />" rel="stylesheet">
     <script src="<c:url value="/resources/js/jquery-3.6.0.min.js" />"></script>
     <script src="<c:url value="/resources/js/calcScript.js" />"></script>
+    <script src="<c:url value="/resources/sockjs.min.js" />"></script>
+    <script src="<c:url value="/resources/stomp.min.js" />"></script>
     <title>Calc</title>
 </head>
 <body>

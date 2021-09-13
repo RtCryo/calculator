@@ -16,4 +16,12 @@ public class WebSocketService {
     public void sendToAll(Expression expression){
         messagingTemplate.convertAndSend("/topic/public", new ExpressionMessage(ExpressionMessage.MessageType.ADD,expression));
     }
+
+    public void sendToDelete(Expression expression) {
+        messagingTemplate.convertAndSend("/topic/public", new ExpressionMessage(ExpressionMessage.MessageType.DELETE, expression));
+    }
+
+    public void sendToRefresh() {
+        messagingTemplate.convertAndSend("/topic/public", new ExpressionMessage(ExpressionMessage.MessageType.REFRESH, null));
+    }
 }

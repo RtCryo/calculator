@@ -3,7 +3,6 @@ package org.example.service;
 import org.example.dao.ExpressionDAO;
 import org.example.model.Expression;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -20,6 +19,7 @@ public class DaoService {
     public void listToDelete (List<Expression> list) {
         for (Expression ex : list) {
             expressionDAO.deleteExpression(ex);
+            webSocketService.sendToDelete(ex);
         }
     }
 
@@ -32,6 +32,6 @@ public class DaoService {
     }
     public void expressionToSave (Expression expression) {
         expressionDAO.putExpression(expression);
-        webSocketService.sendToAll(expression);
+        webSocketService.sendToAll(expressionDAO.getListExpressions(1).get(0));
     }
 }
