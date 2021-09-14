@@ -3,7 +3,7 @@
 <html>
 <head>
     <link href="<c:url value="/resources/css/styleAdmin.css" />" rel="stylesheet">
-    <script src="<c:url value="/resources/js/jquery-3.6.0.min.js" />"></script>
+    <script src="<c:url value="/resources/jquery-3.6.0.min.js" />"></script>
     <script src="<c:url value="/resources/js/adminScript.js" />"></script>
     <script src="<c:url value="/resources/sockjs.min.js" />"></script>
     <script src="<c:url value="/resources/stomp.min.js" />"></script>

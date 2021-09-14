@@ -37,9 +37,10 @@ function sendListToDelete(list) {
         dataType: "json",
         url: 'admin/expressionsToDelete',
         contentType:"application/json",
+        async: false,
         success:function() {
             $(".expressionItem").remove();
-            requestListExpressions();
+            //requestListExpressions();
         },
         error: function (error) {
             alert('error: ' + error.responseText);

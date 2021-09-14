@@ -109,6 +109,7 @@ function requestSubTotal(input) {
             "secondVar": expression.secondVar.replace(",","."),
             "operation": expression.operation},
         url: 'calc/subtotal',
+        async: false,
         success:function(serverData) {
             $("#result").html(serverData);
             if (input.innerText === "E") {
@@ -135,6 +136,7 @@ function requestSave() {
         type: "POST",
         data: expression,
         url: 'calc/expressions',
+        async: false,
         success:function()
         {
             expression.firstVar = scoreBig.innerText;
