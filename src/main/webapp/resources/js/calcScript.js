@@ -12,7 +12,7 @@ let expression = {
     lastButton: undefined,
 };
 let listSection;
-let webSocket = new WebSocket("ws://localhost:8080/calc/message");
+let stompClient;
 
 $(function(){
     $(".enter").click(function() {
@@ -140,9 +140,6 @@ function requestSave() {
             expression.firstVar = scoreBig.innerText;
             scoreSmall.innerText = "";
             expression.lastButton = "enter";
-            //$("ul li").remove();
-            //requestListExpressions();
-            webSocket.send("-->listUpdate");
         },
         error: function (error) {
             expression.lastButton = "error";
@@ -152,10 +149,15 @@ function requestSave() {
 }
 
 function liElementCreate(obj_item) {
+    if ($('#expressionList li').length > 10) $("ul li").last().remove();
     const liElement = document.createElement("li");
     liElement.innerText = obj_item.expressionList + " = " + obj_item.result;
     liElement.setAttribute("data-id", obj_item.id);
-    listSection.appendChild(liElement);
+    listSection.insertBefore(liElement, listSection.firstChild)
+}
+
+function liElementDelete(itemId) {
+    $('li[data-id = ' +  itemId + ' ]').remove();
 }
 
 function requestListExpressions(){
@@ -166,9 +168,18 @@ function requestListExpressions(){
     });
 }
 
-webSocket.onmessage = function() {
-    $("ul li").remove();
-    requestListExpressions();
+function onError(error) {
+    alert(error);
+}
+
+function onConnected() {
+    stompClient.subscribe('/topic/public', onMessageReceived);
+}
+
+function onMessageReceived(message) {
+    let expressionMessage = JSON.parse(message.body);
+    if (expressionMessage.type === "ADD") liElementCreate(expressionMessage.expression);
+    if (expressionMessage.type === "DELETE") liElementDelete(expressionMessage.expression.id);
 }
 
 $( document ).ready(function() {
@@ -177,4 +188,7 @@ $( document ).ready(function() {
     scoreSmall = document.querySelector('.item.score.small');
     listSection = document.querySelector("#expressionList");
     requestListExpressions();
+    let socket = new SockJS('ws');
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, onConnected, onError);
 });

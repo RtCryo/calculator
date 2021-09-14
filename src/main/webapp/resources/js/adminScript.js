@@ -1,6 +1,7 @@
 let listSection;
 let inputElement;
 let inputDelButton;
+let stompClient;
 
 $(function(){
     $(".chkBoxSelectAll").click(function() {
@@ -22,7 +23,7 @@ $(function () {
         $(".chkbox").each(function () {
             if (this.checked === true) {
                 listExpressionsDelete.push(
-                    {id: this.id, expressionList: this.getAttribute("expressionList"), result: this.getAttribute("result")});
+                    {id: this.getAttribute("data-id"), expressionList: this.getAttribute("expressionList"), result: this.getAttribute("result")});
             }
         })
         sendListToDelete(listExpressionsDelete);
@@ -55,25 +56,46 @@ function requestListExpressions(){
     });
 }
 
-function liElementCreate(obj_item) {
+function liElementCreate(objItem) {
     let liElement = document.createElement("div");
     liElement.setAttribute("class", "expressionItem")
     let chkBtn = document.createElement("input");
 
     chkBtn.setAttribute("class", "chkBox");
     chkBtn.setAttribute("type", "checkbox");
-    chkBtn.setAttribute("id", obj_item.id);
-    chkBtn.setAttribute("expressionList", obj_item.expressionList);
-    chkBtn.setAttribute("result", obj_item.result);
+    chkBtn.setAttribute("data-id", objItem.id);
+    chkBtn.setAttribute("expressionList", objItem.expressionList);
+    chkBtn.setAttribute("result", objItem.result);
 
     liElement.appendChild(chkBtn);
-    liElement.innerHTML += obj_item.date + ": " + obj_item.expressionList + " = " + obj_item.result;
+    liElement.innerHTML += objItem.date + ": " + objItem.expressionList + " = " + objItem.result;
 
     listSection.appendChild(liElement);
+}
+
+function liElementDelete(itemId) {
+    $('li[data-id = ' +  itemId + ' ]').remove();
+}
+
+function onError(error) {
+    alert(error);
+}
+
+function onConnected() {
+    stompClient.subscribe('/topic/public', onMessageReceived);
+}
+
+function onMessageReceived(message) {
+    let expressionMessage = JSON.parse(message.body);
+    if (expressionMessage.type === "ADD") liElementCreate(expressionMessage.expression);
+    if (expressionMessage.type === "DELETE") liElementDelete(expressionMessage.expression.id);
 }
 
 $( document ).ready(function() {
     listSection = document.querySelector("#expressionList");
     inputDelButton = document.querySelector(".chkBoxSelectAll");
     requestListExpressions();
+    let socket = new SockJS('ws');
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, onConnected, onError);
 });

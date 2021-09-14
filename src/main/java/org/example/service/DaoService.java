@@ -9,14 +9,17 @@ import java.util.List;
 public class DaoService {
 
     ExpressionDAO expressionDAO;
+    WebSocketService webSocketService;
 
-    public DaoService(ExpressionDAO expressionDAO) {
+    public DaoService(ExpressionDAO expressionDAO, WebSocketService webSocketService) {
+        this.webSocketService = webSocketService;
         this.expressionDAO = expressionDAO;
     }
 
     public void listToDelete (List<Expression> list) {
         for (Expression ex : list) {
             expressionDAO.deleteExpression(ex);
+            webSocketService.sendToDelete(ex);
         }
     }
 
@@ -29,5 +32,6 @@ public class DaoService {
     }
     public void expressionToSave (Expression expression) {
         expressionDAO.putExpression(expression);
+        webSocketService.sendToAll(expressionDAO.getListExpressions(1).get(0));
     }
 }
