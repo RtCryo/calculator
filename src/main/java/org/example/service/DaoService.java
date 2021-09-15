@@ -17,9 +17,17 @@ public class DaoService {
     }
 
     public void listToDelete (List<Expression> list) {
-        for (Expression ex : list) {
-            expressionDAO.deleteExpression(ex);
-            webSocketService.sendToDelete(ex);
+        if (list.size() > 1) {
+            StringBuilder sqlStatement = new StringBuilder("delete from expressionstable where id in (");
+            for(int i = 0; i < list.size() - 1; i++){
+                sqlStatement.append(list.get(i).getId()).append(" ,");
+            }
+            sqlStatement.append(list.get(list.size() - 1).getId()).append(")");
+            expressionDAO.deleteListExpressions(sqlStatement.toString());
+            webSocketService.sendToRefresh();
+        } else {
+            expressionDAO.deleteExpression(list.get(0));
+            webSocketService.sendToDelete(list.get(0));
         }
     }
 

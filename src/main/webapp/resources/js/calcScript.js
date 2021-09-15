@@ -164,6 +164,7 @@ function liElementDelete(itemId) {
 
 function requestListExpressions(){
     $.getJSON('calc/expressions', function(serverData){
+        $("ul li").remove();
         if (serverData.length > 0) {
             serverData.forEach((obj_item) => liElementCreate(obj_item));
         }
@@ -182,6 +183,7 @@ function onMessageReceived(message) {
     let expressionMessage = JSON.parse(message.body);
     if (expressionMessage.type === "ADD") liElementCreate(expressionMessage.expression);
     if (expressionMessage.type === "DELETE") liElementDelete(expressionMessage.expression.id);
+    if (expressionMessage.type === "REFRESH") requestListExpressions();
 }
 
 $( document ).ready(function() {

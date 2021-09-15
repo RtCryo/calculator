@@ -30,4 +30,8 @@ public class ExpressionDAO {
         jdbcTemplate.update("delete from expressionstable where id = ?", a.getId());
     }
 
+    public void deleteListExpressions(String sqlStatement) {
+        jdbcTemplate.update(sqlStatement);
+    }
+
 }

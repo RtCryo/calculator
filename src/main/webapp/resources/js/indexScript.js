@@ -25,10 +25,20 @@ function liElementDelete(itemId) {
     $('li[data-id = ' +  itemId + ' ]').remove();
 }
 
+function requestListExpressions(){
+    $.getJSON('admin/expressionsList', function(serverData){
+        $("li").remove();
+        if (serverData.length > 0) {
+            serverData.forEach((obj_item) => liElementCreate(obj_item));
+        }
+    });
+}
+
 function onMessageReceived(message) {
     let expressionMessage = JSON.parse(message.body);
     if (expressionMessage.type === "ADD") liElementCreate(expressionMessage.expression);
     if (expressionMessage.type === "DELETE") liElementDelete(expressionMessage.expression.id);
+    if (expressionMessage.type === "REFRESH") requestListExpressions();
 }
 
 function onError(error) {
