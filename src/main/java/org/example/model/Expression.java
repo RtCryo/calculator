@@ -1,9 +1,15 @@
 package org.example.model;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "expressionstable")
 public class Expression {
-    private int id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
     private String expressionList;
     private String result;
     private LocalDateTime date;
@@ -11,18 +17,18 @@ public class Expression {
     public Expression() {
     }
 
-    public Expression(int id, String expressionList, String result, LocalDateTime date) {
+    public Expression(long id, String expressionList, String result, LocalDateTime date) {
         this.id = id;
         this.expressionList = expressionList;
         this.result = result;
         this.date = date;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
