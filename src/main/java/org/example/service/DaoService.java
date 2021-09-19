@@ -1,37 +1,40 @@
 package org.example.service;
 
-import org.example.dao.ExpressionDAO;
+import org.example.dao.ExpressionRepository;
 import org.example.model.Expression;
 import org.springframework.stereotype.Service;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 public class DaoService {
 
-    ExpressionDAO expressionDAO;
     WebSocketService webSocketService;
+    ExpressionRepository repository;
 
-    public DaoService(ExpressionDAO expressionDAO, WebSocketService webSocketService) {
+    public DaoService(WebSocketService webSocketService, ExpressionRepository repository) {
         this.webSocketService = webSocketService;
-        this.expressionDAO = expressionDAO;
+        this.repository = repository;
     }
 
-    public void listToDelete (List<Expression> list) {
-        for (Expression ex : list) {
-            expressionDAO.deleteExpression(ex);
-            webSocketService.sendToDelete(ex);
+    public void listToDelete (List<Expression> list){
+        if (list.size() > 1) {
+            repository.deleteAll(list);
+            webSocketService.sendToRefresh();
+        } else {
+            repository.deleteById(list.get(0).getId());
+            webSocketService.sendToDelete(list.get(0));
         }
     }
 
     public List<Expression> listToView(int count) {
-        if (count > 0) {
-            return expressionDAO.getListExpressions(count);
-        } else {
-            return expressionDAO.getListExpressions();
-        }
+        if (count > 1) { return (List<Expression>) repository.findLast(count);}
+        return (List<Expression>) repository.findAll();
     }
+
     public void expressionToSave (Expression expression) {
-        expressionDAO.putExpression(expression);
-        webSocketService.sendToAll(expressionDAO.getListExpressions(1).get(0));
+        expression.setDate(LocalDateTime.now());
+        repository.save(expression);
+        webSocketService.sendToAll(((List<Expression>)repository.findLast(1)).get(0));
     }
 }

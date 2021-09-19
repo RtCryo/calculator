@@ -105,6 +105,20 @@
       <version>${spring.version}</version>
     </dependency>
 
+    <!-- spring-data-jpa -->
+    <dependency>
+      <groupId>org.springframework.data</groupId>
+      <artifactId>spring-data-jpa</artifactId>
+      <version>2.3.9.RELEASE</version>
+    </dependency>
+
+    <!-- hibernate -->
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-core</artifactId>
+      <version>5.5.7.Final</version>
+    </dependency>
+
     <!-- JDBC -->
     <dependency>
       <groupId>org.postgresql</groupId>
@@ -124,8 +138,7 @@
       <version>1.7.32</version>
     </dependency>
   </dependencies>
-
-
+  
   <build>
     <plugins>
       <plugin>

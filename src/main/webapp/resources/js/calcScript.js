@@ -109,6 +109,7 @@ function requestSubTotal(input) {
             "secondVar": expression.secondVar.replace(",","."),
             "operation": expression.operation},
         url: 'calc/subtotal',
+        async: false,
         success:function(serverData) {
             $("#result").html(serverData);
             if (input.innerText === "E") {
@@ -135,6 +136,7 @@ function requestSave() {
         type: "POST",
         data: expression,
         url: 'calc/expressions',
+        async: false,
         success:function()
         {
             expression.firstVar = scoreBig.innerText;
@@ -162,6 +164,7 @@ function liElementDelete(itemId) {
 
 function requestListExpressions(){
     $.getJSON('calc/expressions', function(serverData){
+        $("ul li").remove();
         if (serverData.length > 0) {
             serverData.forEach((obj_item) => liElementCreate(obj_item));
         }
@@ -180,6 +183,7 @@ function onMessageReceived(message) {
     let expressionMessage = JSON.parse(message.body);
     if (expressionMessage.type === "ADD") liElementCreate(expressionMessage.expression);
     if (expressionMessage.type === "DELETE") liElementDelete(expressionMessage.expression.id);
+    if (expressionMessage.type === "REFRESH") requestListExpressions();
 }
 
 $( document ).ready(function() {

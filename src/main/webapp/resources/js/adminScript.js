@@ -1,5 +1,4 @@
 let listSection;
-let inputElement;
 let inputDelButton;
 let stompClient;
 
@@ -23,7 +22,9 @@ $(function () {
         $(".chkbox").each(function () {
             if (this.checked === true) {
                 listExpressionsDelete.push(
-                    {id: this.getAttribute("data-id"), expressionList: this.getAttribute("expressionList"), result: this.getAttribute("result")});
+                    {id: $(this).parent().attr("data-id"),
+                        expressionList: $(this).parent().attr("expressionList"),
+                        result: $(this).parent().attr("result")});
             }
         })
         sendListToDelete(listExpressionsDelete);
@@ -37,9 +38,9 @@ function sendListToDelete(list) {
         dataType: "json",
         url: 'admin/expressionsToDelete',
         contentType:"application/json",
+        async: false,
         success:function() {
-            $(".expressionItem").remove();
-            requestListExpressions();
+            $(".chkBoxSelectAll").prop("checked", false);
         },
         error: function (error) {
             alert('error: ' + error.responseText);
@@ -48,24 +49,24 @@ function sendListToDelete(list) {
 }
 
 function requestListExpressions(){
+    $('.expressionItem').remove();
     $.getJSON('admin/expressionsList', function(serverData){
         if (serverData.length > 0) {
             serverData.forEach((obj_item) => {liElementCreate(obj_item)});
         }
-        inputElement = document.querySelectorAll("input.chkbox");
     });
 }
 
 function liElementCreate(objItem) {
     let liElement = document.createElement("div");
     liElement.setAttribute("class", "expressionItem")
-    let chkBtn = document.createElement("input");
+    liElement.setAttribute("data-id", objItem.id);
+    liElement.setAttribute("expressionList", objItem.expressionList);
+    liElement.setAttribute("result", objItem.result);
 
+    let chkBtn = document.createElement("input");
     chkBtn.setAttribute("class", "chkBox");
     chkBtn.setAttribute("type", "checkbox");
-    chkBtn.setAttribute("data-id", objItem.id);
-    chkBtn.setAttribute("expressionList", objItem.expressionList);
-    chkBtn.setAttribute("result", objItem.result);
 
     liElement.appendChild(chkBtn);
     liElement.innerHTML += objItem.date + ": " + objItem.expressionList + " = " + objItem.result;
@@ -74,7 +75,7 @@ function liElementCreate(objItem) {
 }
 
 function liElementDelete(itemId) {
-    $('li[data-id = ' +  itemId + ' ]').remove();
+    $('.expressionItem[data-id = ' + itemId + ']').remove();
 }
 
 function onError(error) {
@@ -89,6 +90,7 @@ function onMessageReceived(message) {
     let expressionMessage = JSON.parse(message.body);
     if (expressionMessage.type === "ADD") liElementCreate(expressionMessage.expression);
     if (expressionMessage.type === "DELETE") liElementDelete(expressionMessage.expression.id);
+    if (expressionMessage.type === "REFRESH") requestListExpressions();
 }
 
 $( document ).ready(function() {
