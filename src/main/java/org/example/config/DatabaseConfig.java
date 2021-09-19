@@ -11,7 +11,6 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
@@ -34,7 +33,7 @@ public class DatabaseConfig {
     String password;
 
     @Bean
-    public DataSource getDataSource(){
+    public DataSource dataSource(){
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(dataSourceClassName);
         dataSource.setUrl(url);
@@ -44,14 +43,14 @@ public class DatabaseConfig {
     }
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         vendorAdapter.setGenerateDdl(true);
 
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setJpaVendorAdapter(vendorAdapter);
         factory.setPackagesToScan("org.example.model");
-        factory.setDataSource(getDataSource());
+        factory.setDataSource(dataSource);
         return factory;
     }
 
