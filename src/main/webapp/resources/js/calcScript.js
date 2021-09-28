@@ -155,7 +155,7 @@ function liElementCreate(obj_item) {
     const liElement = document.createElement("li");
     liElement.innerText = obj_item.expressionList + " = " + obj_item.result;
     liElement.setAttribute("data-id", obj_item.id);
-    listSection.insertBefore(liElement, listSection.firstChild)
+    listSection.insertBefore(liElement, listSection.firstChild);
 }
 
 function liElementDelete(itemId) {
@@ -166,7 +166,9 @@ function requestListExpressions(){
     $.getJSON('calc/expressions', function(serverData){
         $("ul li").remove();
         if (serverData.length > 0) {
-            serverData.forEach((obj_item) => liElementCreate(obj_item));
+            for(let p = serverData.length - 1; p >= 0; p--) {
+                liElementCreate(serverData[p]);
+            }
         }
     });
 }
