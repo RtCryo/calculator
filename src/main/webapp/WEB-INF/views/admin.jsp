@@ -3,19 +3,17 @@
 <html>
 <head>
     <link href="<c:url value="/resources/css/styleAdmin.css" />" rel="stylesheet">
-    <script src="<c:url value="/resources/jquery-3.6.0.min.js" />"></script>
-    <script src="<c:url value="/resources/js/adminScript.js" />"></script>
-    <script src="<c:url value="/resources/sockjs.min.js" />"></script>
-    <script src="<c:url value="/resources/stomp.min.js" />"></script>
-    <title>Admin panel</title>
+    <jsp:include page="header.jsp"/>
+    <script src="<c:url value="/resources/js/adminScript.js"/>"></script>
 </head>
 <body>
+    <jsp:include page="navbar.jsp"/>
     <div id = "expressionList">
-        <div>
-            <label>
-                <input class="chkBoxSelectAll" type="checkbox" value="0">
-            </label>
-            <button class = "buttonDel">DELETE</button></div>
+        <label>
+            <input class="chkBoxSelectAll" type="checkbox" value="0">
+        </label>
+        <button class = "buttonDel">DELETE</button>
     </div>
+    <jsp:include page="footer.jsp"/>
 </body>
 </html>

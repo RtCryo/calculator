@@ -151,7 +151,7 @@ function requestSave() {
 }
 
 function liElementCreate(obj_item) {
-    if ($('#expressionList li').length > 10) $("ul li").last().remove();
+    if ($('#expressionList li').length > 10) $('#expressionList li').last().remove();
     const liElement = document.createElement("li");
     liElement.innerText = obj_item.expressionList + " = " + obj_item.result;
     liElement.setAttribute("data-id", obj_item.id);
@@ -164,7 +164,7 @@ function liElementDelete(itemId) {
 
 function requestListExpressions(){
     $.getJSON('calc/expressions', function(serverData){
-        $("ul li").remove();
+        $('#expressionList li').remove();
         if (serverData.length > 0) {
             for(let p = serverData.length - 1; p >= 0; p--) {
                 liElementCreate(serverData[p]);

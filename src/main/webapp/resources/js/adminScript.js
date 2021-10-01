@@ -16,7 +16,7 @@ $(function(){
     })
 });
 
-$(function () {
+$(function() {
     $(".buttonDel").click(function () {
         let listExpressionsDelete = [];
         $(".chkbox").each(function () {

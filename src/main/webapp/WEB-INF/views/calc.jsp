@@ -1,17 +1,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <c:set var="cp" value="${pageContext.request.servletContext.contextPath}" scope="request" />
-
 <!DOCTYPE html>
 <html lang = "de">
 <head>
     <link href="<c:url value="/resources/css/styleCalc.css" />" rel="stylesheet">
-    <script src="<c:url value="/resources/jquery-3.6.0.min.js" />"></script>
-    <script src="<c:url value="/resources/js/calcScript.js" />"></script>
-    <script src="<c:url value="/resources/sockjs.min.js" />"></script>
-    <script src="<c:url value="/resources/stomp.min.js" />"></script>
-    <title>Calc</title>
+    <jsp:include page="header.jsp"/>
+    <script src="<c:url value="/resources/js/calcScript.js"/>"></script>
 </head>
 <body>
+    <jsp:include page="navbar.jsp"/>
     <div class = "calc">
         <div class = "containerScore">
             <div class = "item score small"></div>
@@ -44,5 +41,6 @@
             <ul id = "expressionList"></ul>
         </div>
     </div>
+    <jsp:include page="footer.jsp"/>
 </body>
 </html>
