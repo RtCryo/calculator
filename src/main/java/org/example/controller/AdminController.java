@@ -1,7 +1,7 @@
 package org.example.controller;
 
 import org.example.model.Expression;
-import org.example.service.DaoService;
+import org.example.service.ExpressionDaoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -12,10 +12,10 @@ import java.util.List;
 @RequestMapping("/admin")
 public class AdminController {
 
-    private final DaoService daoService;
+    private final ExpressionDaoService expressionDaoService;
 
-    public AdminController(DaoService daoService) {
-        this.daoService = daoService;
+    public AdminController(ExpressionDaoService expressionDaoService) {
+        this.expressionDaoService = expressionDaoService;
     }
 
     @GetMapping()
@@ -25,13 +25,13 @@ public class AdminController {
 
     @GetMapping("/expressionsList")
     public @ResponseBody ResponseEntity<List<Expression>> adminGetList() {
-        return new ResponseEntity<>(daoService.listToView(0), HttpStatus.OK);
+        return new ResponseEntity<>(expressionDaoService.listToView(0), HttpStatus.OK);
     }
 
     @PostMapping("/expressionsToDelete")
     public @ResponseBody ResponseEntity<List<Expression>> expressionsToDelete(@RequestBody List<Expression> list) {
-        daoService.listToDelete(list);
-        return new ResponseEntity<>(daoService.listToView(0), HttpStatus.OK);
+        expressionDaoService.listToDelete(list);
+        return new ResponseEntity<>(expressionDaoService.listToView(0), HttpStatus.OK);
     }
 
 }
