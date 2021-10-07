@@ -8,7 +8,7 @@
 </head>
     <body>
         <jsp:include page="navbar.jsp"/>
-        <form class="container my-4">
+        <form class="container my-4 form-signin" method="post" action="/login">
             <div class="row justify-content-center pt-4">
                 <label for="inputEmail" class="col-sm-1 col-form-label">Email</label>
                 <div class="col-sm-2">

@@ -18,10 +18,12 @@ public class UserModel {
     public UserModel() {
     }
 
-    public UserModel(long id, String username, String password) {
+    public UserModel(long id, String username, String password, Role role, Status status) {
         this.id = id;
         this.username = username;
         this.password = password;
+        this.role = role;
+        this.status = status;
     }
 
     public long getId() {
@@ -46,5 +48,21 @@ public class UserModel {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 }

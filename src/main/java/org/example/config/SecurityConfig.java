@@ -1,5 +1,6 @@
 package org.example.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,29 +21,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
 
-    public SecurityConfig(@Qualifier("myUserDetailsService") UserDetailsService userDetailsService) {
+    public SecurityConfig(@Qualifier(value = "myUserDetailsService") UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/").permitAll()
+                .antMatchers("/resources/*").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
                 .formLogin()
-                .defaultSuccessUrl("/index")
-                .and()
-                .httpBasic()
+                .loginPage("/").permitAll()
+                .defaultSuccessUrl("/calc")
                 .and()
                 .logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "POST"))
+                //.logoutRequestMatcher(new AntPathRequestMatcher("/logout", "POST"))
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)
                 .deleteCookies("JSESSIONID")
-                .logoutSuccessUrl("/index");
+                .logoutSuccessUrl("/login");
     }
 
     @Bean
