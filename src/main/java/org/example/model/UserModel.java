@@ -1,8 +1,6 @@
 package org.example.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "users")
@@ -12,6 +10,10 @@ public class UserModel {
     private long id;
     private String username;
     private String password;
+    @Enumerated(value = EnumType.STRING)
+    private Role role;
+    @Enumerated(value = EnumType.STRING)
+    private Status status;
 
     public UserModel() {
     }
