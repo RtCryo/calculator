@@ -4,10 +4,10 @@ let stompClient;
 let listSection;
 
 $( document ).ready(function() {
-    let socket = new SockJS('ws');
-    stompClient = Stomp.over(socket);
-    stompClient.connect({}, onConnected, onError);
-    listSection = document.querySelector("#messages");
+    // let socket = new SockJS('ws');
+    // stompClient = Stomp.over(socket);
+    // stompClient.connect({}, onConnected, onError);
+    // listSection = document.querySelector("#messages");
 });
 
 function onConnected() {
