@@ -5,4 +5,5 @@
 <script src="<c:url value="/resources/js/jquery-3.6.0.min.js"/>"></script>
 <script src="<c:url value="/resources/js/sockjs.min.js"/>"></script>
 <script src="<c:url value="/resources/js/stomp.min.js"/>"></script>
+<script src="<c:url value="/resources/js/navbarScript.js"/>"></script>
 <title>Calculator service</title>

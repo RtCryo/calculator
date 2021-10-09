@@ -1,6 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <c:set var="cp" value="${pageContext.request.servletContext.contextPath}" scope="request" />
-<html>
+<!DOCTYPE html>
+<html lang = "de">
 <head>
     <link href="<c:url value="/resources/css/styleAdmin.css" />" rel="stylesheet">
     <jsp:include page="header.jsp"/>
