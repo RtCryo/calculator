@@ -2,7 +2,7 @@ package org.example.controller;
 
 import org.example.model.Expression;
 import org.example.service.CalculationService;
-import org.example.service.DaoService;
+import org.example.service.ExpressionDaoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -14,11 +14,11 @@ import java.util.List;
 public class CalcController {
 
     private final CalculationService calculateService;
-    private final DaoService daoService;
+    private final ExpressionDaoService expressionDaoService;
 
-    public CalcController(CalculationService calculateService, DaoService daoService) {
+    public CalcController(CalculationService calculateService, ExpressionDaoService expressionDaoService) {
         this.calculateService = calculateService;
-        this.daoService = daoService;
+        this.expressionDaoService = expressionDaoService;
     }
 
     @GetMapping()
@@ -28,12 +28,12 @@ public class CalcController {
 
     @GetMapping("/expressions")
     public @ResponseBody ResponseEntity<List<Expression>> expressionListGet() {
-        return new ResponseEntity<>(daoService.listToView(10), HttpStatus.OK);
+        return new ResponseEntity<>(expressionDaoService.listToView(10), HttpStatus.OK);
     }
 
     @PostMapping("/expressions")
     public @ResponseBody ResponseEntity<Expression> expressionSave(Expression expression) {
-        daoService.expressionToSave(expression);
+        expressionDaoService.expressionToSave(expression);
         return new ResponseEntity<>(expression,HttpStatus.OK);
     }
 

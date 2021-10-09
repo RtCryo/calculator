@@ -13,9 +13,10 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.target>1.8</maven.compiler.target>
-    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
+    <maven.compiler.source>11</maven.compiler.source>
     <spring.version>5.2.16.RELEASE</spring.version>
+    <spring.security.version>5.3.11.RELEASE</spring.security.version>
     <jackson.version>2.12.4</jackson.version>
     <webSocket.version>1.1</webSocket.version>
   </properties>
@@ -112,6 +113,29 @@
       <version>2.3.9.RELEASE</version>
     </dependency>
 
+    <!-- spring-security -->
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-core</artifactId>
+      <version>${spring.security.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-config</artifactId>
+      <version>${spring.security.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-web</artifactId>
+      <version>${spring.security.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-crypto</artifactId>
+      <version>${spring.security.version}</version>
+    </dependency>
+
+
     <!-- hibernate -->
     <dependency>
       <groupId>org.hibernate</groupId>
@@ -153,10 +177,10 @@
         <artifactId>maven-resources-plugin</artifactId>
         <version>3.0.2</version>
       </plugin>
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.1</version>
-      </plugin>
+<!--      <plugin>-->
+<!--        <artifactId>maven-compiler-plugin</artifactId>-->
+<!--        <version>3.8.1</version>-->
+<!--      </plugin>-->
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>2.22.1</version>

@@ -7,12 +7,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class DaoService {
+public class ExpressionDaoService {
 
     WebSocketService webSocketService;
     ExpressionRepository repository;
 
-    public DaoService(WebSocketService webSocketService, ExpressionRepository repository) {
+    public ExpressionDaoService(WebSocketService webSocketService, ExpressionRepository repository) {
         this.webSocketService = webSocketService;
         this.repository = repository;
     }
