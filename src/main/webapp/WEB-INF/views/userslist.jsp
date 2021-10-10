@@ -7,6 +7,10 @@
     <script src="<c:url value="/resources/js/usersScript.js" />"></script>
 </head>
 <body>
-    <div id = "userslist"></div>
+    <jsp:include page="navbar.jsp"/>
+    <div class="p-3">
+        <ul id = "userslist">
+        </ul>
+    </div>
 </body>
 </html>

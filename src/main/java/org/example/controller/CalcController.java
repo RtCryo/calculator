@@ -5,12 +5,14 @@ import org.example.service.CalculationService;
 import org.example.service.ExpressionDaoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
 @RequestMapping("/calc")
+@PreAuthorize("hasAuthority('developers:read')")
 public class CalcController {
 
     private final CalculationService calculateService;
