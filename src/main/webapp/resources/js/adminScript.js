@@ -5,11 +5,11 @@ let stompClient;
 $(function(){
     $(".chkBoxSelectAll").click(function() {
         if($(".chkBoxSelectAll").prop("checked") === true) {
-            $(".chkbox").each(function () {
+            $(".chkBox").each(function () {
                 $(this).prop("checked", true);
             })
         } else {
-            $(".chkbox").each(function () {
+            $(".chkBox").each(function () {
                 $(this).prop("checked", false);
             })
         }
@@ -19,7 +19,7 @@ $(function(){
 $(function() {
     $(".buttonDel").click(function () {
         let listExpressionsDelete = [];
-        $(".chkbox").each(function () {
+        $(".chkBox").each(function () {
             if (this.checked === true) {
                 listExpressionsDelete.push(
                     {id: $(this).parent().attr("data-id"),
@@ -65,7 +65,7 @@ function liElementCreate(objItem) {
     liElement.setAttribute("result", objItem.result);
 
     let chkBtn = document.createElement("input");
-    chkBtn.setAttribute("class", "chkBox");
+    chkBtn.setAttribute("class", "chkBox me-2");
     chkBtn.setAttribute("type", "checkbox");
 
     liElement.appendChild(chkBtn);
@@ -79,7 +79,7 @@ function liElementDelete(itemId) {
 }
 
 function onError(error) {
-    alert(error);
+    console.log(error);
 }
 
 function onConnected() {

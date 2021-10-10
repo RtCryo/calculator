@@ -3,6 +3,7 @@ package org.example.service;
 import org.example.dao.ExpressionRepository;
 import org.example.model.Expression;
 import org.springframework.stereotype.Service;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -29,7 +30,8 @@ public class ExpressionDaoService {
 
     public List<Expression> listToView(int count) {
         if (count > 1) { return (List<Expression>) repository.findLast(count);}
-        return (List<Expression>) repository.findAll();
+        return repository.findAllByOrderByDateAsc();
+        //return (List<Expression>) repository.findAll(Sort.by(Sort.Direction.ASC, "date"));
     }
 
     public void expressionToSave (Expression expression) {

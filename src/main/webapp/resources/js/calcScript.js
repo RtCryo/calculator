@@ -174,7 +174,7 @@ function requestListExpressions(){
 }
 
 function onError(error) {
-    alert(error);
+    console.log(error);
 }
 
 function onConnected() {

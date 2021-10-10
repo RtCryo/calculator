@@ -11,6 +11,9 @@
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="<c:url value="/admin"/>">Admin</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="<c:url value="/users"/>">User list</a>
+                    </li>
                 </ul>
                 <div class="navbar-brand" id = "userNameNavbar"></div>
                 <form class="form-signin" method="post" action="<c:url value="/logout"/>">
