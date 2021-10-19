@@ -1,5 +1,10 @@
 package org.example.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@AllArgsConstructor
+@Getter
 public enum Permission {
     DEVELOPERS_READ("developers:read"),
     DEVELOPERS_WRITE("developers:write"),
@@ -7,12 +12,4 @@ public enum Permission {
     ADMIN_WRITE("admin:write");
 
     private final String permission;
-
-    Permission(String permission) {
-        this.permission = permission;
-    }
-
-    public String getPermission() {
-        return permission;
-    }
 }
