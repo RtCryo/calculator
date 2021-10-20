@@ -1,5 +1,10 @@
 package org.example.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
 public class ExpressionMessage {
 
     private MessageType type;
@@ -9,26 +14,5 @@ public class ExpressionMessage {
         ADD,
         DELETE,
         REFRESH
-    }
-
-    public ExpressionMessage(MessageType type, Expression expression) {
-        this.type = type;
-        this.expression = expression;
-    }
-
-    public MessageType getType() {
-        return type;
-    }
-
-    public void setType(MessageType type) {
-        this.type = type;
-    }
-
-    public Expression getExpression() {
-        return expression;
-    }
-
-    public void setExpression(Expression expression) {
-        this.expression = expression;
     }
 }

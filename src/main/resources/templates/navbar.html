@@ -1,0 +1,26 @@
+<div th:fragment="navbar">
+    <div class="container-max-widths">
+        <div class="row">
+            <div class="col">
+                <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e6e6e6;">
+                    <img th:src="@{img/logo.png}" width="40" height="40" class="d-inline-block align-text-top ms-2 me-3" alt="">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" th:href="@{/calc}">Calculator</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" th:href="@{/admin}">Admin</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" th:href="@{/users}">User list</a>
+                        </li>
+                    </ul>
+                    <div class="navbar-brand" id = "userNameNavbar"></div>
+                    <form class="form-signin" method="post" action="/logout">
+                        <button type="submit" class="btn btn-primary me-3">Logout</button>
+                    </form>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>

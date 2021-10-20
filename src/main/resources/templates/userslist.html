@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org ">
+<head>
+    <div th:replace="/header :: scripts"></div>
+    <script th:src="@{js/usersScript.js}"></script>
+</head>
+<body>
+    <div th:insert="/navbar :: navbar"></div>
+    <div class="p-3">
+        <ul id = "userslist">
+        </ul>
+    </div>
+    <div th:insert="/footer :: footer"></div>
+</body>
+</html>

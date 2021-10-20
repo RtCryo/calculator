@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.example.model.Expression;
 import org.example.service.CalculationService;
 import org.example.service.ExpressionDaoService;
@@ -8,8 +9,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
+@RequiredArgsConstructor
 @Controller
 @RequestMapping("/calc")
 @PreAuthorize("hasAuthority('user:read')")
@@ -17,11 +20,6 @@ public class CalcController {
 
     private final CalculationService calculateService;
     private final ExpressionDaoService expressionDaoService;
-
-    public CalcController(CalculationService calculateService, ExpressionDaoService expressionDaoService) {
-        this.calculateService = calculateService;
-        this.expressionDaoService = expressionDaoService;
-    }
 
     @GetMapping()
     public String calcGet() {
