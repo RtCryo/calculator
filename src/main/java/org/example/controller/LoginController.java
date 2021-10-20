@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class LoginController {
 
     @GetMapping("/login")
-    public String getLoginPage() {
+    public String getLoginPage(Authentication authentication) {
+        if (authentication != null) {return "calc";}
         return "index";
     }
 

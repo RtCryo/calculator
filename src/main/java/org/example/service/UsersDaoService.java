@@ -1,5 +1,6 @@
 package org.example.service;
 
+import lombok.RequiredArgsConstructor;
 import org.example.dao.UsersRepository;
 import org.example.model.UserModel;
 import org.springframework.stereotype.Service;
@@ -7,12 +8,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class UsersDaoService {
     private final UsersRepository usersRepository;
-
-    public UsersDaoService(UsersRepository usersRepository) {
-        this.usersRepository = usersRepository;
-    }
 
     public List<UserModel> getAllUsers(){
         return (List<UserModel>) usersRepository.findAll();
