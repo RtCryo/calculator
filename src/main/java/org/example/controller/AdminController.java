@@ -14,7 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/admin")
-@PreAuthorize("hasAuthority('admin:read')")
+@PreAuthorize("hasAnyAuthority('admin:read','developer:read')")
 public class AdminController {
 
     private final ExpressionDaoService expressionDaoService;
