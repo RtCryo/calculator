@@ -12,7 +12,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/calc")
-@PreAuthorize("hasAuthority('developers:read')")
+@PreAuthorize("hasAuthority('user:read')")
 public class CalcController {
 
     private final CalculationService calculateService;

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class LoginController {
 
     @GetMapping("/login")
-    public String getLoginPage(Authentication authentication) {
+    public String getLoginPage() {
         return "index";
     }
 
