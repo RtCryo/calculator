@@ -1,13 +1,18 @@
 "use strict";
 
+let userNameNavbar;
+
 $( document ).ready(function() {
-    requestUserName();
+    $.getJSON('/navbarRequest', function(serverData){
+        userNameNavbar = serverData.username;
+        viewUserNameOrRedirect();
+    })
 });
 
-function requestUserName(){
-    $.getJSON('/getUserName', function(serverData){
-        if (serverData.length > 0) {
-            $('#userNameNavbar').text("Hello, " + serverData);
-        }
-    })
+function viewUserNameOrRedirect() {
+    if (userNameNavbar === null) {
+        $(location).prop('href', '/calc');
+    } else {
+        $('#userNameNavbar').text("Hello, " + userNameNavbar);
+    }
 }

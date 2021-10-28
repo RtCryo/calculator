@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <link th:href="@{css/styleCalc.css}" type="text/css" rel="stylesheet" />
+    <div th:replace="/header :: scripts"></div>
+    <script th:src="@{js/calcScript.js}"></script>
+</head>
+<body>
+<div th:replace="/navbar :: navbar"></div>
+    <h1>ERROR</h1>
+    <a href="/login">Go Home</a>
+<div th:insert="/footer :: footer"></div>
+</body>
+</html>
