@@ -8,7 +8,5 @@ $( document ).ready(function() {
 });
 
 function alertMessage(message, type) {
-    let wrapper = document.createElement('div');
-    wrapper.innerHTML = '<div class="alert alert-' + type + ' alert-dismissible" role="alert">' + message + '</div>';
-    $("#liveAlertPlaceholder").append(wrapper).delay(4000).slideUp(200);
+    $("#liveAlertPlaceholder").append('<div class="col-sm-3 alert alert-' + type + ' alert-dismissible" role="alert">' + message + '</div>').delay(4000).slideUp(200);
 }
