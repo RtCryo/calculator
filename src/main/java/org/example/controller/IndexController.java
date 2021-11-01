@@ -8,7 +8,7 @@ public class IndexController {
 
     @GetMapping("/")
     public String indexGet(){
-        return "calc";
+        return "redirect:/calc";
     }
 
 }

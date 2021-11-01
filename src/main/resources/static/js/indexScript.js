@@ -1,9 +1,9 @@
 "use strict";
 
 $( document ).ready(function() {
-    $.getJSON('/navbarRequest', function() {
-        $(location).prop('href', '/calc');
-    });
+    // $.getJSON('/navbarRequest', function() {
+    //     $(location).prop('href', '/calc');
+    // });
     $('#userNameNavbar').text("Hello, Anon");
 });
 

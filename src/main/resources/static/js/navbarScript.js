@@ -11,7 +11,7 @@ $( document ).ready(function() {
 
 function viewUserNameOrRedirect() {
     if (userNameNavbar === null) {
-        $(location).prop('href', '/calc');
+        $('#userNameNavbar').text("Hello, Anon");
     } else {
         $('#userNameNavbar').text("Hello, " + userNameNavbar);
     }
