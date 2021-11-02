@@ -21,7 +21,7 @@ public class CalcController {
     private final CalculationService calculateService;
     private final ExpressionDaoService expressionDaoService;
 
-    @GetMapping()
+    @GetMapping
     public String calcGet() {
         return "calc";
     }
