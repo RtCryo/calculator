@@ -49,37 +49,58 @@ public class TestAdminController {
     }
 
     @Test
-    public void getAdminAuthenticated() throws Exception {
-        for(String permission : permissionsAdmin) {
-            SecurityContextHolder.getContext().setAuthentication(new PreAuthenticatedAuthenticationToken(null, null, Arrays.asList(new SimpleGrantedAuthority(permission))));
-            this.mockMvc.perform(get("/admin")).andExpect(status().isOk());
-        }
-    }
-
-//    @Test
-//    //@WithMockUser
-//    public void getAdminAuthenticated() throws Exception {
-//        SecurityContextHolder.getContext().setAuthentication(new PreAuthenticatedAuthenticationToken(null, null, Arrays.asList(new SimpleGrantedAuthority("admin:read"))));
-//        this.mockMvc.perform(get("/admin")).andExpect(status().isOk());
-//    }
-
-    @Test
-    @WithMockUser(authorities = {"user:read"})
-    public void getAdminAuthenticatedAsUser() throws Exception {
+    @WithMockUser(authorities = "user:read")
+    public void getAdminAuthenticatedAsUserRead() throws Exception {
         this.mockMvc.perform(get("/admin")).andExpect(status().is5xxServerError());
+        this.mockMvc.perform(get("/admin/expressionsList")).andExpect(status().is5xxServerError());
+        this.mockMvc.perform(get("/admin/expressionsToDelete")).andExpect(status().is5xxServerError());
     }
 
     @Test
-    @WithMockUser(username = "admin", authorities = {"admin:read"})
-    public void getAdminListAuthenticatedAsAdmin() throws Exception {
+    @WithMockUser(authorities = "user:write")
+    public void getAdminAuthenticatedAsUserWrite() throws Exception {
+        this.mockMvc.perform(get("/admin")).andExpect(status().is5xxServerError());
+        this.mockMvc.perform(get("/admin/expressionsList")).andExpect(status().is5xxServerError());
+        this.mockMvc.perform(get("/admin/expressionsToDelete")).andExpect(status().is5xxServerError());
+    }
+
+    @Test
+    @WithMockUser(authorities = "developers:read")
+    public void getAdminAuthenticatedAsDeveloperRead() throws Exception {
+        this.mockMvc.perform(get("/admin")).andExpect(status().isOk());
+        this.mockMvc.perform(get("/admin/expressionsList")).andExpect(status().isOk())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+        this.mockMvc.perform(get("/admin/expressionsToDelete")).andExpect(status().is5xxServerError());
+
+    }
+
+    @Test
+    @WithMockUser(authorities = "developers:write")
+    public void getAdminAuthenticatedAsDeveloperWrite() throws Exception {
+        this.mockMvc.perform(get("/admin")).andExpect(status().isOk());
         this.mockMvc.perform(get("/admin/expressionsList")).andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+        this.mockMvc.perform(get("/admin/expressionsToDelete")).andExpect(status().is5xxServerError());
+
     }
 
     @Test
-    @WithMockUser(username = "user", authorities = {"user:read"})
-    public void getAdminListAuthenticatedAsUser() throws Exception {
-        this.mockMvc.perform(get("/admin/expressionsList")).andExpect(status().is5xxServerError());
+    @WithMockUser(authorities = "admin:read")
+    public void getAdminAuthenticatedAsAdminRead() throws Exception {
+        this.mockMvc.perform(get("/admin")).andExpect(status().isOk());
+        this.mockMvc.perform(get("/admin/expressionsList")).andExpect(status().isOk())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+        this.mockMvc.perform(get("/admin/expressionsToDelete")).andExpect(status().is5xxServerError());
+    }
+
+    @Test
+    @WithMockUser(authorities = "admin:write")
+    public void getAdminAuthenticatedAsAdminWrite() throws Exception {
+        this.mockMvc.perform(get("/admin")).andExpect(status().isOk());
+        this.mockMvc.perform(get("/admin/expressionsList")).andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+        this.mockMvc.perform(get("/admin/expressionsToDelete")).andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
     @TestConfiguration
