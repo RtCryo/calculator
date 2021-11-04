@@ -21,9 +21,4 @@ public class LoginController {
         }
         return "index";
     }
-
-    @GetMapping("/success")
-    public String getSuccessPage() {
-        return "calc";
-    }
 }
