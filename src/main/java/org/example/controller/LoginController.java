@@ -13,7 +13,7 @@ public class LoginController {
     @GetMapping("/login")
     public String getLoginPage(@RequestParam(value = "error", defaultValue = "false") boolean loginError, Model model,
                                @AuthenticationPrincipal User user) {
-        if(user != null){return "redirect:/calc";}
+        if(user != null) { return "redirect:/calc"; }
         if(loginError) {
             model.addAttribute(
                     "errorMessage",
