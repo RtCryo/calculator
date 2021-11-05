@@ -28,7 +28,7 @@ public class TestLoginController {
     public void getLoginControllerUnauthenticated() throws Exception {
         this.mockMvc.perform(get("/login"))
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("class=\"form-control\" placeholder=\"Username\"")));
+                .andExpect(content().string(containsString("class=\"form-control\" id=\"username\" name=\"username\"")));
     }
 
     @Test
