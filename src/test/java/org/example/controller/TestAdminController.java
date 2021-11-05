@@ -31,33 +31,32 @@ public class TestAdminController {
     private ExpressionDaoService expressionDaoService;
 
     @Test
-    public void getAdminUnauthenticated() throws Exception {
+    public void adminControllerUnauthenticated() throws Exception {
         this.mockMvc.perform(get("/admin")).andExpect(status().is3xxRedirection());
     }
 
     @Test
     @WithMockCustomUser(roles = Role.USER)
-    public void getAdminAuthenticatedAsRoleUser() throws Exception {
+    public void adminControllerAuthenticatedAsRoleUser() throws Exception {
         this.mockMvc.perform(get("/admin")).andExpect(status().is5xxServerError());
         this.mockMvc.perform(get("/admin/expressionsList")).andExpect(status().is5xxServerError());
-        this.mockMvc.perform(get("/admin/expressionsToDelete")).andExpect(status().is5xxServerError());
+        this.mockMvc.perform(post("/admin/expressionsToDelete")).andExpect(status().is5xxServerError());
         Mockito.verify(expressionDaoService, Mockito.times(0)).listToView(0);
     }
 
     @Test
     @WithMockCustomUser(roles = Role.DEVELOPER)
-    public void getAdminAuthenticatedAsRoleDeveloper() throws Exception {
+    public void adminControllerAuthenticatedAsRoleDeveloper() throws Exception {
         this.mockMvc.perform(get("/admin")).andExpect(status().isOk());
         this.mockMvc.perform(get("/admin/expressionsList")).andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
-        this.mockMvc.perform(get("/admin/expressionsToDelete")).andExpect(status().is5xxServerError());
+        this.mockMvc.perform(post("/admin/expressionsToDelete")).andExpect(status().is5xxServerError());
         Mockito.verify(expressionDaoService).listToView(0);
-
     }
 
     @Test
     @WithMockCustomUser(roles = Role.ADMIN)
-    public void getAdminAuthenticatedAsRoleAdmin() throws Exception {
+    public void adminControllerAuthenticatedAsRoleAdmin() throws Exception {
         this.mockMvc.perform(get("/admin")).andExpect(status().isOk());
         this.mockMvc.perform(get("/admin/expressionsList")).andExpect(status().isOk())
                     .andExpect(content().contentType(MediaType.APPLICATION_JSON));
@@ -67,7 +66,7 @@ public class TestAdminController {
 
     @Test
     @WithMockCustomUser(roles = Role.SUPER_ADMIN)
-    public void getAdminAuthenticatedAsRoleSuperAdmin() throws Exception {
+    public void adminControllerAuthenticatedAsRoleSuperAdmin() throws Exception {
         this.mockMvc.perform(get("/admin")).andExpect(status().isOk());
         this.mockMvc.perform(get("/admin/expressionsList")).andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));

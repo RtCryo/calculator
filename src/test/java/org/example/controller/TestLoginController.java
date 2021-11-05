@@ -18,14 +18,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(controllers = LoginController.class)
-@ContextConfiguration(classes = {TestLoginController.Config.class, WithMockCustomUserSecurityContextFactory.class, SecurityConfig.class, LoginController.class})
+@ContextConfiguration(classes = {TestLoginController.Config.class, SecurityConfig.class, LoginController.class})
 public class TestLoginController {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
-    public void getLoginControllerUnauthenticated() throws Exception {
+    public void loginUnauthenticatedGetController() throws Exception {
         this.mockMvc.perform(get("/login"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("class=\"form-control\" id=\"username\" name=\"username\"")));
@@ -33,14 +33,14 @@ public class TestLoginController {
 
     @Test
     @WithMockUser
-    public void getLoginControllerAuthenticated() throws Exception {
+    public void loginAuthenticatedGetController() throws Exception {
         this.mockMvc.perform(get("/login"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/calc"));
     }
 
     @Test
-    public void postLoginControllerUserInccorect() throws Exception {
+    public void loginUserIncorrectPostController() throws Exception {
         this.mockMvc.perform(formLogin("/login").user("qwerty").password("111"))
                 .andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/login?error=true"));
     }
