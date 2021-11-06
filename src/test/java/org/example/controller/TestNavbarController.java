@@ -14,20 +14,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest
 @ContextConfiguration(classes = {NavbarController.class})
-public class TestNavbarController {
+class TestNavbarController {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
-    public void userNameNavbarGetControllerUnauthorized() throws Exception {
+    void userNameNavbarGetControllerUnauthorized() throws Exception {
         this.mockMvc.perform(get("/navbarRequest"))
                 .andExpect(status().is4xxClientError());
     }
 
     @Test
     @WithMockUser
-    public void userNameNavbarGetControllerAuthorized() throws Exception {
+    void userNameNavbarGetControllerAuthorized() throws Exception {
         this.mockMvc.perform(get("/navbarRequest"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));

@@ -13,14 +13,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest
 @ContextConfiguration(classes = {IndexController.class})
-public class TestIndexController {
+class TestIndexController {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
     @WithMockUser
-    public void indexGetController() throws Exception {
+    void indexGetController() throws Exception {
         this.mockMvc.perform(get("/"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/calc"));
