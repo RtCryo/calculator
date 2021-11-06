@@ -21,7 +21,7 @@ public class UsersController {
     }
 
     @GetMapping("/users")
-    public String usersListController(){
+    public String usersController(){
         return "userslist";
     }
 
