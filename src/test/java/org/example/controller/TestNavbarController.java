@@ -8,6 +8,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -26,11 +27,11 @@ class TestNavbarController {
     }
 
     @Test
-    @WithMockUser
+    @WithMockUser(username = "bob")
     void userNameNavbarGetControllerAuthorized() throws Exception {
         this.mockMvc.perform(get("/navbarRequest"))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+                .andExpect(content().string(containsString("bob")));
     }
 
 }

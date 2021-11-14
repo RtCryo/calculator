@@ -2,8 +2,10 @@ package org.example.controller;
 
 import org.example.config.SecurityConfig;
 import org.junit.jupiter.api.Test;
+import org.mockito.internal.matchers.Null;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -27,15 +29,15 @@ class TestLoginController {
     void loginUnauthenticatedGetController() throws Exception {
         this.mockMvc.perform(get("/login"))
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("class=\"form-control\" id=\"username\" name=\"username\"")));
+                .andExpect(content().string(containsString("")));
     }
 
     @Test
-    @WithMockUser
+    @WithMockUser(username = "bob")
     void loginAuthenticatedGetController() throws Exception {
         this.mockMvc.perform(get("/login"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/calc"));
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("bob")));
     }
 
     @Test

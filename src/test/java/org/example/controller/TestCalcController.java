@@ -1,6 +1,7 @@
 package org.example.controller;
 
 import org.example.config.SecurityConfig;
+import org.example.dto.ExpressionDTO;
 import org.example.model.Expression;
 import org.example.service.CalculationService;
 import org.example.service.ExpressionDaoService;
@@ -12,8 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -43,19 +43,18 @@ class TestCalcController {
     @Test
     @WithMockCustomUser
     void expressionListGetController() throws Exception {
-        this.mockMvc.perform(get("/calc/expressions")).andExpect(status().isOk());
+        this.mockMvc.perform(get("/calc")).andExpect(status().isOk());
         Mockito.verify(expressionDaoService, Mockito.times(1)).listToView(10);
     }
 
     @Test
     @WithMockCustomUser
     void expressionSavePostController() throws Exception {
-        this.mockMvc.perform(post("/calc/expressions")
+        this.mockMvc.perform(put("/calc/add")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("[{\"id\":\"18\",\"expressionList\":\"9+1\",\"result\":\"10\"}]"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
-        Mockito.verify(expressionDaoService, Mockito.times(1)).expressionToSave(new Expression());
+                .andExpect(status().isCreated());
+        Mockito.verify(expressionDaoService, Mockito.times(1)).expressionToSave(new ExpressionDTO());
     }
 
     @Test

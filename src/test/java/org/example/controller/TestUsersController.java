@@ -31,8 +31,6 @@ class TestUsersController {
     void usersGetControllerUnauthorized() throws Exception {
         this.mockMvc.perform(get("/users"))
                 .andExpect(status().is3xxRedirection());
-        this.mockMvc.perform(get("/userslist/getlist"))
-                .andExpect(status().is3xxRedirection());
     }
 
     @Test
@@ -40,17 +38,12 @@ class TestUsersController {
     void usersGetControllerAsUser() throws Exception {
         this.mockMvc.perform(get("/users"))
                 .andExpect(status().is4xxClientError());
-        this.mockMvc.perform(get("/userslist/getlist"))
-                .andExpect(status().is4xxClientError());
     }
 
     @Test
     @WithMockCustomUser(roles = Role.ADMIN)
     void usersGetControllerAsAdmin() throws Exception {
         this.mockMvc.perform(get("/users"))
-                .andExpect(status().isOk())
-                .andExpect(content().string(containsString("<ul id = \"userslist\">")));
-        this.mockMvc.perform(get("/userslist/getlist"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }

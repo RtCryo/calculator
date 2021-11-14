@@ -10,8 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -36,42 +35,37 @@ class TestAdminController {
     @WithMockCustomUser(roles = Role.USER)
     void adminControllerAuthenticatedAsRoleUser() throws Exception {
         this.mockMvc.perform(get("/admin")).andExpect(status().is5xxServerError());
-        this.mockMvc.perform(get("/admin/expressionsList")).andExpect(status().is5xxServerError());
-        this.mockMvc.perform(post("/admin/expressionsToDelete")).andExpect(status().is5xxServerError());
+        this.mockMvc.perform(delete("/admin/delete")).andExpect(status().is5xxServerError());
         Mockito.verify(expressionDaoService, Mockito.times(0)).listToView(0);
     }
 
     @Test
     @WithMockCustomUser(roles = Role.DEVELOPER)
     void adminControllerAuthenticatedAsRoleDeveloper() throws Exception {
-        this.mockMvc.perform(get("/admin")).andExpect(status().isOk());
-        this.mockMvc.perform(get("/admin/expressionsList")).andExpect(status().isOk())
+        this.mockMvc.perform(get("/admin")).andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
-        this.mockMvc.perform(post("/admin/expressionsToDelete")).andExpect(status().is5xxServerError());
+        this.mockMvc.perform(delete("/admin/delete")).andExpect(status().is5xxServerError());
         Mockito.verify(expressionDaoService).listToView(0);
     }
 
     @Test
     @WithMockCustomUser(roles = Role.ADMIN)
     void adminControllerAuthenticatedAsRoleAdmin() throws Exception {
-        this.mockMvc.perform(get("/admin")).andExpect(status().isOk());
-        this.mockMvc.perform(get("/admin/expressionsList")).andExpect(status().isOk())
+        this.mockMvc.perform(get("/admin")).andExpect(status().isOk())
                     .andExpect(content().contentType(MediaType.APPLICATION_JSON));
-        this.mockMvc.perform(post("/admin/expressionsToDelete")).andExpect(status().is5xxServerError());
+        this.mockMvc.perform(delete("/admin/delete")).andExpect(status().is5xxServerError());
         Mockito.verify(expressionDaoService).listToView(0);
     }
 
     @Test
     @WithMockCustomUser(roles = Role.SUPER_ADMIN)
     void adminControllerAuthenticatedAsRoleSuperAdmin() throws Exception {
-        this.mockMvc.perform(get("/admin")).andExpect(status().isOk());
-        this.mockMvc.perform(get("/admin/expressionsList")).andExpect(status().isOk())
+        this.mockMvc.perform(get("/admin")).andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
-        this.mockMvc.perform(post("/admin/expressionsToDelete")
+        this.mockMvc.perform(delete("/admin/delete")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("[{\"id\":\"18\",\"expressionList\":\"9+1\",\"result\":\"10\"}]"))
-                    .andExpect(status().isOk())
-                    .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+                .andExpect(status().isOk());
         Mockito.verify(expressionDaoService, Mockito.times(2)).listToView(0);
     }
 
