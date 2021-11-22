@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ExpressionDTO {
 
+    private Long id;
     private String expressionList;
     private String result;
     private LocalDateTime date;

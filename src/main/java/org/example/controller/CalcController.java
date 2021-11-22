@@ -26,18 +26,19 @@ public class CalcController {
         return new ResponseEntity<>(expressionDaoService.listToView(10), HttpStatus.OK);
     }
 
-    @PutMapping("/add")
-    public @ResponseBody ResponseEntity<HttpStatus> expressionSave(ExpressionDTO expressionDTO) {
+    @PutMapping("/expression/add")
+    public @ResponseBody ResponseEntity<ExpressionDTO> expressionSave(ExpressionDTO expressionDTO) {
         expressionDaoService.expressionToSave(expressionDTO);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(expressionDTO, HttpStatus.CREATED);
     }
 
-    @PostMapping("/subtotal")
-    public @ResponseBody ResponseEntity<String> processRequest(ExpressionDTO expressionDTO) {
-        return new ResponseEntity<>(calculateService.calculate(
+    @PostMapping("/expression/subtotal")
+    public @ResponseBody ResponseEntity<ExpressionDTO> processRequest(ExpressionDTO expressionDTO) {
+        expressionDTO.setResult(calculateService.calculate(
                 expressionDTO.getFirstValue(),
                 expressionDTO.getSecondValue(),
-                expressionDTO.getOperation()), HttpStatus.OK);
+                expressionDTO.getOperation()));
+        return new ResponseEntity<>(expressionDTO, HttpStatus.OK);
     }
 
 }
