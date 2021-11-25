@@ -2,7 +2,6 @@ package org.example.controller;
 
 import org.example.config.SecurityConfig;
 import org.example.dto.ExpressionDTO;
-import org.example.model.Expression;
 import org.example.service.CalculationService;
 import org.example.service.ExpressionDaoService;
 import org.junit.jupiter.api.Test;
@@ -14,7 +13,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(CalcController.class)

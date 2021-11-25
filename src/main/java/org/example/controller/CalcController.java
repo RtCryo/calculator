@@ -27,18 +27,28 @@ public class CalcController {
     }
 
     @PutMapping("/expression/add")
-    public @ResponseBody ResponseEntity<ExpressionDTO> expressionSave(ExpressionDTO expressionDTO) {
+    public @ResponseBody ResponseEntity<ExpressionDTO> expressionSave(@RequestBody ExpressionDTO expressionDTO) {
         expressionDaoService.expressionToSave(expressionDTO);
         return new ResponseEntity<>(expressionDTO, HttpStatus.CREATED);
     }
 
-    @PostMapping("/expression/subtotal")
-    public @ResponseBody ResponseEntity<ExpressionDTO> processRequest(ExpressionDTO expressionDTO) {
-        expressionDTO.setResult(calculateService.calculate(
-                expressionDTO.getFirstValue(),
-                expressionDTO.getSecondValue(),
-                expressionDTO.getOperation()));
-        return new ResponseEntity<>(expressionDTO, HttpStatus.OK);
+    @PostMapping("/expression/submitNum")
+    public @ResponseBody ResponseEntity<ExpressionDTO> numRequest(@RequestBody String num) {
+        return new ResponseEntity<>(calculateService.tryAddNum(num), HttpStatus.OK);
     }
 
+    @PostMapping("/expression/submitOperation")
+    public @ResponseBody ResponseEntity<ExpressionDTO> operationRequest(@RequestBody String op) {
+        return new ResponseEntity<>(calculateService.tryAddOperation(op), HttpStatus.OK);
+    }
+
+    @GetMapping("/expression/saveExpression")
+    public @ResponseBody ResponseEntity<ExpressionDTO> operationRequest() {
+        return new ResponseEntity<>(calculateService.saveExpression(), HttpStatus.OK);
+    }
+
+    @GetMapping("/expression/cancelExpression")
+    public @ResponseBody ResponseEntity<ExpressionDTO> cancelRequest() {
+        return new ResponseEntity<>(calculateService.cancelExpression(), HttpStatus.OK);
+    }
 }

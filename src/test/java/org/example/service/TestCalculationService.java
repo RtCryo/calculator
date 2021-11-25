@@ -3,18 +3,22 @@ package org.example.service;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 public class TestCalculationService {
+
+    @MockBean
+    private static ExpressionDaoService expressionDaoService;
 
     static CalculationService calculationService;
 
     @BeforeAll
     public static void inizialize(){
-        calculationService = new CalculationService();
+        calculationService = new CalculationService(expressionDaoService);
     }
 
     @Test
-    public void calculationPlus(){
+    void calculationPlus(){
         String[] actual = new String[5];
         actual[0] = calculationService.calculate("5","1","+");
         actual[1] = calculationService.calculate("1","8","+");
@@ -25,7 +29,7 @@ public class TestCalculationService {
     }
 
     @Test
-    public void calculationMinus(){
+    void calculationMinus(){
         String[] actual = new String[5];
         actual[0] = calculationService.calculate("5","1","-");
         actual[1] = calculationService.calculate("1","8","-");
@@ -36,7 +40,7 @@ public class TestCalculationService {
     }
 
     @Test
-    public void calculationMultiply(){
+    void calculationMultiply(){
         String[] actual = new String[5];
         actual[0] = calculationService.calculate("5","1","*");
         actual[1] = calculationService.calculate("1","8","*");
@@ -47,7 +51,7 @@ public class TestCalculationService {
     }
 
     @Test
-    public void calculationDivision(){
+    void calculationDivision(){
         String[] actual = new String[5];
         actual[0] = calculationService.calculate("5","1","/");
         actual[1] = calculationService.calculate("1","8","/");
@@ -58,7 +62,7 @@ public class TestCalculationService {
     }
 
     @Test
-    public void calculationDivisionByZero(){
+    void calculationDivisionByZero(){
         Assertions.assertThrows(IllegalArgumentException.class, () ->
                 calculationService.calculate("5","0","/"));
     }
