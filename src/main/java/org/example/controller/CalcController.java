@@ -51,4 +51,9 @@ public class CalcController {
     public @ResponseBody ResponseEntity<ExpressionDTO> cancelRequest() {
         return new ResponseEntity<>(calculateService.cancelExpression(), HttpStatus.OK);
     }
+
+    @GetMapping("/expression/submitComma")
+    public @ResponseBody ResponseEntity<ExpressionDTO> commaRequest() {
+        return new ResponseEntity<>(calculateService.commaButton(), HttpStatus.OK);
+    }
 }
