@@ -7,14 +7,11 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 public class TestCalculationService {
 
-    @MockBean
-    private static ExpressionDaoService expressionDaoService;
-
     static CalculationService calculationService;
 
     @BeforeAll
     public static void inizialize(){
-        calculationService = new CalculationService(expressionDaoService);
+        calculationService = new CalculationService();
     }
 
     @Test
@@ -25,7 +22,7 @@ public class TestCalculationService {
         actual[2] = calculationService.calculate("5.4","1.2","+");
         actual[3] = calculationService.calculate("-5","1","+");
         actual[4] = calculationService.calculate("-6","9","+");
-        Assertions.assertArrayEquals(new String[]{"6", "9", "6,6", "-4", "3"},actual);
+        Assertions.assertArrayEquals(new String[]{"6", "9", "6.6", "-4", "3"},actual);
     }
 
     @Test
@@ -36,7 +33,7 @@ public class TestCalculationService {
         actual[2] = calculationService.calculate("5.4","1.2","-");
         actual[3] = calculationService.calculate("-5","1","-");
         actual[4] = calculationService.calculate("-6","9","-");
-        Assertions.assertArrayEquals(new String[]{"4", "-7", "4,2", "-6", "-15"},actual);
+        Assertions.assertArrayEquals(new String[]{"4", "-7", "4.2", "-6", "-15"},actual);
     }
 
     @Test
@@ -47,7 +44,7 @@ public class TestCalculationService {
         actual[2] = calculationService.calculate("5.4","1.2","*");
         actual[3] = calculationService.calculate("-5","1","*");
         actual[4] = calculationService.calculate("-6","9","*");
-        Assertions.assertArrayEquals(new String[]{"5", "8", "6,48", "-5", "-54"},actual);
+        Assertions.assertArrayEquals(new String[]{"5", "8", "6.48", "-5", "-54"},actual);
     }
 
     @Test
@@ -58,7 +55,7 @@ public class TestCalculationService {
         actual[2] = calculationService.calculate("5.4","1.2","/");
         actual[3] = calculationService.calculate("-5","1","/");
         actual[4] = calculationService.calculate("-6","12","/");
-        Assertions.assertArrayEquals(new String[]{"5", "0,125", "4,5", "-5", "-0,5"},actual);
+        Assertions.assertArrayEquals(new String[]{"5", "0.125", "4.5", "-5", "-0.5"},actual);
     }
 
     @Test

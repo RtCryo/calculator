@@ -21,7 +21,7 @@ public class DefaultAdvice {
 
     @ExceptionHandler(NumberFormatException.class)
     public ResponseEntity<String> numberFormatException(IllegalArgumentException e) {
-        String response = "Invalid second value!";
+        String response = "Invalid value!";
         logger.error(response, e);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }

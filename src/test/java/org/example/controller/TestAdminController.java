@@ -28,7 +28,7 @@ class TestAdminController {
 
     @Test
     void adminControllerUnauthenticated() throws Exception {
-        this.mockMvc.perform(get("/admin")).andExpect(status().is3xxRedirection());
+        this.mockMvc.perform(get("/admin")).andExpect(status().is4xxClientError());
     }
 
     @Test

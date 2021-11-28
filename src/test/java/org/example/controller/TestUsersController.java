@@ -29,7 +29,7 @@ class TestUsersController {
     @WithAnonymousUser
     void usersGetControllerUnauthorized() throws Exception {
         this.mockMvc.perform(get("/users"))
-                .andExpect(status().is3xxRedirection());
+                .andExpect(status().is4xxClientError());
     }
 
     @Test
