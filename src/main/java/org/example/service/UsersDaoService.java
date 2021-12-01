@@ -15,4 +15,6 @@ public class UsersDaoService {
     public List<UserModel> getAllUsers(){
         return (List<UserModel>) usersRepository.findAll();
     }
+
+    public UserModel createNewUser(UserModel userModel) { return usersRepository.save(userModel); }
 }

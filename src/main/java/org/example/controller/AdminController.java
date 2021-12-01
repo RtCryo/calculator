@@ -23,7 +23,7 @@ public class AdminController {
         return new ResponseEntity<>(expressionDaoService.listToView(0), HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete")
+    @PostMapping("/delete")
     @PreAuthorize("hasAuthority('admin:write')")
     public @ResponseBody ResponseEntity<List<Expression>> expressionsToDelete(@RequestBody List<Expression> list) {
         expressionDaoService.listToDelete(list);

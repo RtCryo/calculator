@@ -35,7 +35,7 @@ class TestAdminController {
     @WithMockCustomUser(roles = Role.USER)
     void adminControllerAuthenticatedAsRoleUser() throws Exception {
         this.mockMvc.perform(get("/admin")).andExpect(status().is5xxServerError());
-        this.mockMvc.perform(delete("/admin/delete")).andExpect(status().is5xxServerError());
+        this.mockMvc.perform(post("/admin/delete")).andExpect(status().is5xxServerError());
         Mockito.verify(expressionDaoService, Mockito.times(0)).listToView(0);
     }
 
@@ -44,7 +44,7 @@ class TestAdminController {
     void adminControllerAuthenticatedAsRoleDeveloper() throws Exception {
         this.mockMvc.perform(get("/admin")).andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
-        this.mockMvc.perform(delete("/admin/delete")).andExpect(status().is5xxServerError());
+        this.mockMvc.perform(post("/admin/delete")).andExpect(status().is5xxServerError());
         Mockito.verify(expressionDaoService).listToView(0);
     }
 
@@ -53,7 +53,7 @@ class TestAdminController {
     void adminControllerAuthenticatedAsRoleAdmin() throws Exception {
         this.mockMvc.perform(get("/admin")).andExpect(status().isOk())
                     .andExpect(content().contentType(MediaType.APPLICATION_JSON));
-        this.mockMvc.perform(delete("/admin/delete")).andExpect(status().is5xxServerError());
+        this.mockMvc.perform(post("/admin/delete")).andExpect(status().is5xxServerError());
         Mockito.verify(expressionDaoService).listToView(0);
     }
 
@@ -62,7 +62,7 @@ class TestAdminController {
     void adminControllerAuthenticatedAsRoleSuperAdmin() throws Exception {
         this.mockMvc.perform(get("/admin")).andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
-        this.mockMvc.perform(delete("/admin/delete")
+        this.mockMvc.perform(post("/admin/delete")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("[{\"id\":\"18\",\"expressionList\":\"9+1\",\"result\":\"10\"}]"))
                 .andExpect(status().isOk());
