@@ -14,6 +14,7 @@ import javax.persistence.*;
 public class UserModel {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String username;
     private String password;
@@ -21,5 +22,6 @@ public class UserModel {
     private Role role;
     @Enumerated(value = EnumType.STRING)
     private Status status;
+    private boolean enabled;
 
 }

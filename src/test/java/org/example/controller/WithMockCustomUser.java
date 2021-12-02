@@ -14,4 +14,5 @@ public @interface WithMockCustomUser {
     String name() default "Rob Winch";
     Status status() default Status.ACTIVE;
     Role roles() default Role.USER;
+    boolean enabled() default true;
 }

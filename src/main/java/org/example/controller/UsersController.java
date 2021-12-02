@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import org.example.dto.UserDTO;
 import org.example.model.UserModel;
 import org.example.service.UsersDaoService;
 import org.springframework.http.HttpStatus;
@@ -25,8 +26,8 @@ public class UsersController {
         return new ResponseEntity<>(usersDaoService.getAllUsers(), HttpStatus.OK);
     }
 
-    @PostMapping()
-    public ResponseEntity<UserModel> usersPostCreateController(@RequestBody UserModel userModel){
-        return new ResponseEntity<>(usersDaoService.createNewUser(userModel), HttpStatus.OK);
+    @PostMapping("/create")
+    public ResponseEntity<String> usersPostCreateController(@RequestBody UserDTO userDTO){
+        return new ResponseEntity<>(usersDaoService.createNewUser(userDTO), HttpStatus.OK);
     }
 }
