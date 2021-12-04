@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import org.example.dto.MessageDTO;
 import org.example.dto.UserDTO;
 import org.example.model.UserModel;
 import org.example.service.UsersDaoService;
@@ -27,7 +28,7 @@ public class UsersController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<String> usersPostCreateController(@RequestBody UserDTO userDTO){
-        return new ResponseEntity<>(usersDaoService.createNewUser(userDTO), HttpStatus.OK);
+    public ResponseEntity<MessageDTO> usersPostCreateController(@RequestBody UserDTO userDTO){
+        return new ResponseEntity<>(new MessageDTO(usersDaoService.createNewUser(userDTO)), HttpStatus.OK);
     }
 }
