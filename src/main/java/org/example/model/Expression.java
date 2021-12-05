@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
@@ -12,12 +13,12 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @Table(name = "expressionstable")
-public class Expression {
+public class Expression implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    @Column(name = "expressionlist")
+    @Column(name = "expressionlist", nullable = false, updatable = false)
     private String expressionList;
     private String result;
     private LocalDateTime date;

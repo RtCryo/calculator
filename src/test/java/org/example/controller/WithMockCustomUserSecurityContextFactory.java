@@ -17,7 +17,7 @@ public class WithMockCustomUserSecurityContextFactory
     public SecurityContext createSecurityContext(WithMockCustomUser customUser) {
         SecurityContext context = SecurityContextHolder.createEmptyContext();
         UserDetails principal =
-                SecurityUserModel.fromUser(new UserModel(0, customUser.name(), customUser.username(), customUser.roles(), customUser.status()));
+                SecurityUserModel.fromUser(new UserModel(0, customUser.name(), customUser.username(), customUser.roles(), customUser.status(), customUser.enabled()));
         Authentication auth =
                 new UsernamePasswordAuthenticationToken(principal, "password", principal.getAuthorities());
         context.setAuthentication(auth);

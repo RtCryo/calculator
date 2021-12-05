@@ -1,24 +1,29 @@
 package org.example.controller;
 
+import lombok.RequiredArgsConstructor;
+import org.example.dto.UserDTO;
+import org.example.service.UsersDaoService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
+@RequestMapping("/login")
+@RequiredArgsConstructor
 public class LoginController {
 
-    @GetMapping("/login")
-    public String getLoginPage(@RequestParam(value = "error", defaultValue = "false") boolean loginError, Model model,
-                               @AuthenticationPrincipal User user) {
-        if(user != null) { return "redirect:/calc"; }
-        if(loginError) {
-            model.addAttribute(
-                    "errorMessage",
-                    "Username or password is incorrect. Please make sure to provide valid username or password.");
-        }
-        return "index";
+    private final UsersDaoService usersDaoService;
+
+    @GetMapping()
+    public ResponseEntity<UserDTO> getLoginPage(@AuthenticationPrincipal User user) {
+        UserDTO userDTO = new UserDTO();
+        if(user == null) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        userDTO.setUsername(user.getUsername());
+        userDTO.setRole(usersDaoService.getUser(user.getUsername()).getRole());
+        return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
 }

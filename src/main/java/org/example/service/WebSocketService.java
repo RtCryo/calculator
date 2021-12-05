@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class WebSocketService {
     private final SimpMessageSendingOperations messagingTemplate;
 
-    @Value("${my.webSocket.destination}")
+    @Value("/topic/public")
     private String destination;
 
     public void sendToAll(Expression expression){

@@ -4,6 +4,7 @@ import org.example.config.SecurityConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -24,23 +25,16 @@ class TestLoginController {
     private MockMvc mockMvc;
 
     @Test
-    void loginUnauthenticatedGetController() throws Exception {
-        this.mockMvc.perform(get("/login"))
-                .andExpect(status().isOk())
-                .andExpect(content().string(containsString("class=\"form-control\" id=\"username\" name=\"username\"")));
-    }
-
-    @Test
-    @WithMockUser
+    @WithMockUser(username = "bob")
     void loginAuthenticatedGetController() throws Exception {
         this.mockMvc.perform(get("/login"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/calc"));
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("bob")));
     }
 
     @Test
     void loginUserIncorrectPostController() throws Exception {
         this.mockMvc.perform(formLogin("/login").user("qwerty").password("111"))
-                .andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/login?error=true"));
+                .andExpect(status().is4xxClientError());
     }
 }
